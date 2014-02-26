@@ -1,0 +1,46 @@
+-- For whitespace ap issue
+on replace_chars(this_text, search_string, replacement_string)
+	set AppleScript's text item delimiters to the search_string
+	set the item_list to every text item of this_text
+	set AppleScript's text item delimiters to the replacement_string
+	set this_text to the item_list as string
+	set AppleScript's text item delimiters to ""
+	return this_text
+end replace_chars
+
+-- Tell what you are doing now
+
+tell application "System Events"
+	set frontApp to name of first application process whose frontmost is true
+end tell
+
+try
+	tell application frontApp
+		if the (count of windows) is not 0 then
+			set window_title to name of front window
+		end if
+	end tell
+-- ignore all error
+on error
+	set window_title to ""
+end try
+
+-- For variable not defined issue
+try
+	if window_title = missing value then set window_title to ""
+on error
+	set window_title to ""
+end try
+
+set theDate to (do shell script "date '+%Y/%m/%d-%H:%M'")
+set theIp to do shell script "/sbin/ifconfig | grep 'inet.*broadcast' | awk '{print $2}'"
+set theSsid to do shell script "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I | grep -E '\\<SSID\\>' | awk '{print $2}'"
+
+if theIp = "" then set theIp to "-"
+if theSsid = "" then set theSsid to "-"
+
+-- replace whitespace
+set theSsid to replace_chars(theSsid, " ", "+")
+
+-- <format-id> <ip> <ssid> <date> <appname> <window-title>
+"a4 " & theIp & " " & theSsid & " " & theDate & " " & frontApp & ": " & window_title
