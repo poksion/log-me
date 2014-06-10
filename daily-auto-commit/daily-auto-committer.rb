@@ -29,10 +29,15 @@ def git_commit
   `cd #{NOTES_DIR} && #{GIT} add -A && #{GIT} commit -F #{message_path}`
 end
 
+def log_copy
+    `cp ~/workspace/log/* ~/Dropbox/Log/`
+end
+
 if __FILE__ == $0
   if check_committerable
     if check_connection
       git_commit
+      log_copy
     end
   end
 end
