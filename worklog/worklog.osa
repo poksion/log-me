@@ -10,9 +10,14 @@ end replace_chars
 
 -- Tell what you are doing now
 
-tell application "System Events"
-	set frontApp to name of first application process whose frontmost is true
-end tell
+try
+    tell application "System Events"
+        set frontApp to name of first application process whose frontmost is true
+    end tell
+-- ignore all error
+on error
+	set frontApp to ""
+end try
 
 try
 	tell application frontApp
