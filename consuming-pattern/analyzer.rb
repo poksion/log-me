@@ -12,14 +12,22 @@ require 'gchart'
 =end
 
 def make_report
+    
+    # type
+    report_types = { :bar => 'bar', :pie => 'pie' }
+    current_type = :pie
+    chart_file_name = report_types[current_type] + '_char.png'
 
     category_manager = CategoryManager.new
-    #category_policy = CategoryPolicyCardType.new
-    category_policy = CategoryPolicyUsedContent.new
+    if current_type == :bar
+        category_policy = CategoryPolicyCardType.new
+    else
+        category_policy = CategoryPolicyUsedContent.new
+    end
     category_loader = CategoryLoader.new
     category_loader.load(category_manager,category_policy)
 
-    category_manager.build_report_info('pie')
+    category_manager.build_report_info(report_types[current_type])
     chart = Gchart.new( :type => category_manager.get_gchart_type,
                         :title => "",
                         :theme => :keynote,
@@ -31,10 +39,10 @@ def make_report
                         :axis_range => category_manager.get_gchart_range,
                         :bar_width_and_spacing => category_manager.get_gchart_width_and_space,
                         :size => category_manager.get_gchart_size,
-                        :filename => "chart.png")
+                        :filename => chart_file_name)
     chart.file
 
-    `open chart.png`
+    `open #{chart_file_name}`
 end
 
 if __FILE__ == $0
