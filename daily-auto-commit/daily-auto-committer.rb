@@ -30,7 +30,7 @@ def git_commit
 end
 
 def log_copy
-    `cp ~/workspace/log/* ~/Dropbox/Log/`
+    `cp /Library/WebServer/Documents/log/* ~/Dropbox/Log/`
 end
 
 if __FILE__ == $0
