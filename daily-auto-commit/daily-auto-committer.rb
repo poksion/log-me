@@ -12,7 +12,7 @@ def check_committerable
   
   last_status = `cd #{NOTES_DIR} && #{GIT} status -s`
   if last_status == nil or last_status.empty?
-    `echo " * #{current_date}" >> #{NOTES_DIR}/no-action-days.md`
+    `echo " * #{current_date}" >> #{NOTES_DIR}/action-information.md`
   end
   
   return true
