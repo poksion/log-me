@@ -1,0 +1,51 @@
+#! /usr/bin/env sh
+
+case "$1" in
+	grep)
+		cd ~/notes && grep -nriI --color "$2" *
+		cd - &> /dev/null
+		cd ~/Dropbox/Public && find . -name "*.md" | xargs grep -nriI --color "$2"
+		cd - &> /dev/null
+		cd ~/Box\ Sync/workingDocs/working && find . -name "*.md" | xargs grep -nriI --color "$2"
+		cd - &> /dev/null
+        #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dngrep]_"
+		#grep -nriI --color=always "$2" ~/notes/*
+		;;
+    todo)
+		grep -nriI --color=always --include \*.ics "$2" /Users/skplanet/Dropbox/Log
+        #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dntodo]_"
+        ;;
+	grep_cgi)
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" /Users/skplanet/Dropbox/Notes
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" /Users/skplanet/Dropbox/Public
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" "/Users/skplanet/Box Sync/작업문서/작업중"
+		;;
+	blog-open-last)
+		cd ~/blog && ls | grep md | tail -1 | xargs open
+		cd - &> /dev/null
+		;;
+	blog-update)
+        ruby ~/workspace/poksion-net/metadata-generator/blog-metadata-generator.rb
+		;;
+	project-update)
+        ruby ~/workspace/poksion-net/metadata-generator/project-metadata-generator.rb
+		;;
+	blog) 
+		if [ -z "$2" ]
+		then
+			echo "dn blog title"
+			exit 1
+		fi
+		cd ~/blog && touch "`date +"%Y%m%d%H%M"`-$2.md"
+        echo -e "$2\n====\n\nTag\n====\n," > "`date +"%Y%m%d%H%M"`-$2.md"
+		cd - &> /dev/null
+		echo ~/blog/`date +"%Y%m%d%H%M"`-$2.md
+		;;
+	*)
+		echo "dn grep/grep_cgi/todo keyword"
+		echo "dn blog title"
+		echo "dn blog-open-last"
+		echo "dn blog-update"
+		echo "dn project-update"
+		;;
+esac

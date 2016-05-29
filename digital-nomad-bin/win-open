@@ -1,0 +1,10 @@
+#! /usr/bin/env sh
+
+case "$1" in
+	*.md | *.kt | *.kts)
+		/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe "$1"
+		;;
+	*)
+		echo "not supported file"
+		;;
+esac
