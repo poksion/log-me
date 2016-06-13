@@ -1,5 +1,4 @@
 # http://docs.ansible.com/ansible/YAMLSyntax.html
-# http://stackoverflow.com/questions/4150782/using-yaml-with-variables
 
 # computer name.
 # eg. mac, t1125m, xd8, ...
@@ -9,7 +8,7 @@ computer_name: 'mac'
 paths:
   git : '/usr/bin/git'
 
-  # for docs on dropbox
+  # for dropbox
   notes_dir : '~/Dropbox/Notes'
   log_dir : '~/Dropbox/Log'
   blog_dir : '~/Dropbox/public/blog'
@@ -22,4 +21,3 @@ paths:
   
   # bash history
   bahs_history_file : '~/.bash_history'
-  bahs_history_save_file : '%{log_dir}/bash-history.log'

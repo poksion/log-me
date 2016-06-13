@@ -11,15 +11,16 @@ end
 
 class ConfigLoaderTest < Test::Unit::TestCase
 
-  def test_init
-    config_loader = ConfigLoader.new
-    assert_not_nil(config_loader)
-  end
-  
   def test_include
     config_loader = ConfigLoader.new
     os_checker_mock = OsCheckerMock.new
     assert_equal(config_loader.run_on_mac?, os_checker_mock.run_on_mac?)
+  end
+
+  def test_load
+    config_loader = ConfigLoader.new
+    assert_not_nil(config_loader)
+    config_loader.load
   end
 
 end
