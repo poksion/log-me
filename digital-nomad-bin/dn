@@ -1,2 +1,2 @@
 #! /usr/bin/env sh
-source ~/workspace/log-me/digital-nomad-bin/dn-core
+source ~/workspace/log-me/digital-nomad-bin/dn-core.sh

@@ -2,7 +2,7 @@ require_relative 'daily-auto-info-generator'
 require 'tempfile'
 
 GIT = "/usr/bin/git"
-NOTES_DIR = "~/notes"
+NOTES_DIR = "~/Dropbox/Notes"
 
 def check_committerable
   current_date = Time.new.strftime('%Y-%m-%d')
@@ -30,7 +30,8 @@ def git_commit
 end
 
 def log_copy
-    `cp /Library/WebServer/Documents/log/* ~/Dropbox/Log/`
+    `cp ~/workspace/worklog.log ~/Dropbox/Log/`
+    `cp ~/.bash_history ~/Dropbox/Log/bash-history.log`
 end
 
 if __FILE__ == $0

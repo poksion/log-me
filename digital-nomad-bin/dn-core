@@ -1,5 +1,11 @@
 #! /usr/bin/env sh
 
+#################################
+# need symbolic link
+#  - notes
+#  - blog
+#################################
+
 case "$1" in
 	grep)
 		cd ~/notes && grep -nriI --color "$2" *
@@ -12,13 +18,13 @@ case "$1" in
 		#grep -nriI --color=always "$2" ~/notes/*
 		;;
     todo)
-		grep -nriI --color=always --include \*.ics "$2" /Users/skplanet/Dropbox/Log
+		grep -nriI --color=always --include \*.ics "$2" ~/Dropbox/Log
         #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dntodo]_"
         ;;
 	grep_cgi)
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" /Users/skplanet/Dropbox/Notes
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" /Users/skplanet/Dropbox/Public
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" "/Users/skplanet/Box Sync/작업문서/작업중"
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" ~/Dropbox/Notes
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" ~/Dropbox/Public
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" "~/Box Sync/작업문서/작업중"
 		;;
 	blog-open-last)
 		cd ~/blog && ls | grep md | tail -1 | xargs open
