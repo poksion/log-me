@@ -22,7 +22,13 @@ end
 class WindowLogger
   def log
     require_relative 'do_log'
-    File.open('C:\Users\poksi\workspace\worklog.log', 'a+') do |f|
+
+    worklog_file = "C:\\Users\\poksi\\workspace\\worklog.log"
+    dropbox_dir = "C:\\Users\\poksi\\Dropbox\\Log\\"
+
+    dropbox_sync(worklog_file, dropbox_dir, 't1125m')
+
+    File.open(worklog_file, 'a+') do |f|
       f.puts do_log
     end
   end

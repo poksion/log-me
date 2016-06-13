@@ -4,6 +4,16 @@
 require 'Win32API'
 require 'win32ole'
 require 'socket'
+require 'FileUtils'
+
+def dropbox_sync(worklog_file, dropbox_dir_with_lastslash, machin_name)
+  dropbox_file = dropbox_dir_with_lastslash + 'worklog-' + Time.now.strftime("%Y%m%d") + '-' + machin_name + '.log'
+  if not File.exist? dropbox_file
+    if File.exist? worklog_file
+      FileUtils.move worklog_file, dropbox_file
+    end
+  end
+end
 
 def do_log
   active_window_handle = get_active_window_handle
