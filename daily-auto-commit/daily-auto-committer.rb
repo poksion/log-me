@@ -1,4 +1,7 @@
-require_relative 'daily-auto-info-generator'
+# encoding: utf-8
+# vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
+
+require_relative 'lib/daily-auto-info-generator'
 require 'tempfile'
 
 GIT = "/usr/bin/git"
@@ -18,11 +21,11 @@ def check_committerable
   return true
 end
 
-def git_commit
+def git_commit(info_generator)
   message = Tempfile.new('daily-aut-commit-message')
   message_path = message.path
 
-  message << get_date()+get_weather()+get_news()
+  message << info_generator.get_date + info_generator.get_weather + info_generator.get_news
   message.flush
   message.close
   
@@ -36,8 +39,9 @@ end
 
 if __FILE__ == $0
   if check_committerable
-    if check_connection
-      git_commit
+    info_generator = InfoGenerator.new
+    if info_generator.is_contents_src_available
+      git_commit(info_generator)
       log_copy
     end
   end
