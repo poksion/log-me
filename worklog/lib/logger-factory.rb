@@ -6,14 +6,19 @@ require_relative '../../common/config-loader'
 
 class WindowLogger
   def log
+    puts 'here1'
     require_relative 'do_log_win'
 
+    puts 'here2'
     config_loader = ConfigLoader.new
     do_logger = WindowDoLogger.new
 
     worklog_file = config_loader.get_worklog_file_fullpath
+    puts worklog_file
     dropbox_dir = config_loader.get_dropbox_log_dir_fullpath
+    puts dropbox_dir
     comp_name = config_loader.get_computer_name
+    puts comp_name
 
     do_logger.dropbox_sync(worklog_file, dropbox_dir, comp_name)
 
@@ -58,6 +63,7 @@ class LoggerFactory
       if run_on_mac?
         logger = MacLogger.new
       end
-
+      
+      return logger
   end
 end
