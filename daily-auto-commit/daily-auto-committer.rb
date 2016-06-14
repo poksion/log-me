@@ -2,26 +2,24 @@
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative 'lib/daily-auto-info-generator'
+require_relative '../common/config-loader'
 require 'tempfile'
 
-GIT = "/usr/bin/git"
-NOTES_DIR = "~/Dropbox/Notes"
-
-def check_committerable
+def check_committerable(notes_dir, git_cmd)
   current_date = Time.new.strftime('%Y-%m-%d')
-  last_log_date = `cd #{NOTES_DIR} && #{GIT} log -1 --pretty=format:"%ad" --date=short`
+  last_log_date = `cd #{notes_dir} && #{git_cmd} log -1 --pretty=format:"%ad" --date=short`
   
   return false if current_date.eql? last_log_date
   
-  last_status = `cd #{NOTES_DIR} && #{GIT} status -s`
+  last_status = `cd #{notes_dir} && #{git_cmd} status -s`
   if last_status == nil or last_status.empty?
-    `echo " * #{current_date}" >> #{NOTES_DIR}/action-information.md`
+    `echo " * #{current_date}" >> #{notes_dir}/action-information.md`
   end
   
   return true
 end
 
-def git_commit(info_generator)
+def git_commit(info_generator, notes_dir, git_cmd)
   message = Tempfile.new('daily-aut-commit-message')
   message_path = message.path
 
@@ -29,20 +27,28 @@ def git_commit(info_generator)
   message.flush
   message.close
   
-  `cd #{NOTES_DIR} && #{GIT} add -A && #{GIT} commit -F #{message_path}`
+  `cd #{notes_dir} && #{git_cmd} add -A && #{git_cmd} commit -F #{message_path}`
 end
 
-def log_copy
-    `cp ~/workspace/worklog.log ~/Dropbox/Log/`
-    `cp ~/.bash_history ~/Dropbox/Log/bash-history.log`
+def log_copy(worklog_file, save_dir)
+    `cp #{worklog_file} #{save_dir}`
+    bash_save_file = File.join(save_dir, 'bash-history.log')
+    `cp ~/.bash_history #{bash_save_file}`
 end
 
 if __FILE__ == $0
-  if check_committerable
+  config_loader = ConfigLoader.new
+  notes_dir = config_loader.get_notes_dir_fullpath
+  git_cmd = config_loader.get_git_cmd
+  
+  worklog_file = config_loader.get_worklog_file_fullpath
+  log_dir = config_loader.get_dropbox_log_dir_fullpath
+
+  if check_committerable(notes_dir, git_cmd)
     info_generator = InfoGenerator.new
     if info_generator.is_contents_src_available
-      git_commit(info_generator)
-      log_copy
+      git_commit(info_generator, notes_dir, git_cmd)
+      log_copy(worklog_file, log_dir)
     end
   end
 end

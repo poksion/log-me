@@ -18,6 +18,3 @@ paths:
   
   # log
   log_file : '~/workspace/worklog.log'
-  
-  # bash history
-  bahs_history_file : '~/.bash_history'

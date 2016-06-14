@@ -15,6 +15,7 @@ class ConfigLoader
     @computer_name = contents['computer_name']
       
     paths = contents['paths']
+    @git_cmd = paths['git']
     @log_dir_fullpath = File.expand_path(paths['log_dir'])
     @log_file_fullpath = File.expand_path(paths['log_file'])
     @blog_dir_fullpath = File.expand_path(paths['blog_dir'])
@@ -28,6 +29,10 @@ class ConfigLoader
 
   def get_computer_name
     @computer_name
+  end
+  
+  def get_git_cmd
+    @git_cmd
   end
   
   def get_worklog_file_fullpath
