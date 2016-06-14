@@ -1,18 +1,21 @@
 # encoding: utf-8
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
-require_relative '../../config-loader/lib/os-checker'
+require_relative '../../common/lib/os-checker'
+require_relative '../../common/lib/config-loader'
 
 class WindowLogger
   def log
     require_relative 'do_log_win'
 
+    config_loader = ConfigLoader.new
     do_logger = WindowDoLogger.new
 
-    worklog_file = "C:\\Users\\poksi\\workspace\\worklog.log"
-    dropbox_dir = "C:\\Users\\poksi\\Dropbox\\Log\\"
+    worklog_file = config_loader.get_worklog_file_fullpath
+    dropbox_dir = config_loader.get_dropbox_log_dir_fullpath
+    comp_name = config_loader.get_computer_name
 
-    do_logger.dropbox_sync(worklog_file, dropbox_dir, 't1125m')
+    do_logger.dropbox_sync(worklog_file, dropbox_dir, comp_name)
 
     File.open(worklog_file, 'a+') do |f|
       f.puts do_logger.do_log
@@ -33,8 +36,11 @@ class MacLogger
 
   def log
     if check_login
-      File.open('/Users/poksi/workspace/worklog.log', 'a+') do |f|
-        f.puts `osascript /Users/poksi/workspace/log-me/worklog/lib/do_log_mac.osa`
+      config_loader = ConfigLoader.new
+      worklog_file = config_loader.get_worklog_file_fullpath
+      File.open(worklog_file, 'a+') do |f|
+        osa_script_fullpath = File.join(File.expand_path(File.dirname(__FILE__)), 'do_log_mac.osa')
+        f.puts `osascript #{osa_script_fullpath}`
       end
     end
   end
