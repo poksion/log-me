@@ -1,19 +1,22 @@
 # encoding: utf-8
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
-require_relative '../../config-loader/lib/os-checker'
+require_relative '../../common/lib/os-checker'
+require_relative '../../common/config-loader'
 
 class PathSelector
   include OsChecker
 
   def initialize
+    config_loader = ConfigLoader.new
+    @blog_dir_path = config_loader.get_blog_dir_fullpath
+    @project_dir_path = File.dirname(@blog_dir_path)
+
     if(run_on_mac?)
-      @dir_path = File.expand_path("~/blog")
       require 'iconv'
       @utf8Encoder = Iconv.new('UTF-8//IGNORE','UTF-8-MAC')
-    else
-      @dir_path = File.expand_path('C:\Users\poksi\Dropbox\public\blog')
     end
+
   end
   
   def get_filename(md_file)
@@ -25,7 +28,11 @@ class PathSelector
     return filename
   end
   
-  def get_dirname
-    @dir_path
+  def get_blog_dirname
+    @blog_dir_path
+  end
+  
+  def get_project_dirname
+    @project_dir_path
   end
 end

@@ -7,11 +7,11 @@ def index_generator
 
   path_selector = PathSelector.new
   t = Time.now
-  timestamp = File.join(path_selector.get_dirname,"index.timestamp")
+  timestamp = File.join(path_selector.get_blog_dirname,"index.timestamp")
   File.open( timestamp, 'w') do |file|
     file.write(t.strftime("%Y%m%d%H%M"))
   end
-  md = File.join(path_selector.get_dirname,"*.md")
+  md = File.join(path_selector.get_blog_dirname,"*.md")
 
   index_contents = '<?xml version="1.0" encoding="utf-8"?><mds>'
   md_files = Dir.glob(md).sort
@@ -30,7 +30,7 @@ def index_generator
   end
   index_contents << "</mds>"
 
-  index_file = File.join(path_selector.get_dirname,"index.xml")
+  index_file = File.join(path_selector.get_blog_dirname,"index.xml")
   File.open( index_file, 'w') do |file|
     file.write(index_contents)
   end

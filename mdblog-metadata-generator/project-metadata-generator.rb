@@ -6,7 +6,7 @@ require_relative 'lib/path-selector'
 def time_generator
   path_selector = PathSelector.new
   t = Time.now
-  timestamp = File.join(path_selector.get_dirname,"index.timestamp")
+  timestamp = File.join(path_selector.get_project_dirname,"index.timestamp")
   File.open( timestamp, 'w') do |file|
     file.write(t.strftime("%Y%m%d%H%M"))
   end

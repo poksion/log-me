@@ -1,10 +1,7 @@
 #! /usr/bin/env sh
 
-#################################
-# need symbolic link
-#  - notes
-#  - blog
-#################################
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+CONFIG_LOADER=$DIR"/common/config-loader.rb"
 
 case "$1" in
 	grep)
@@ -17,7 +14,7 @@ case "$1" in
         #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dngrep]_"
 		#grep -nriI --color=always "$2" ~/notes/*
 		;;
-    todo)
+    grep_todo)
 		grep -nriI --color=always --include \*.ics "$2" ~/Dropbox/Log
         #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dntodo]_"
         ;;
@@ -27,14 +24,17 @@ case "$1" in
 		grep -nriI --color=always --include \*.md --include \*.txt "$2" "~/Box Sync/작업문서/작업중"
 		;;
 	blog-open-last)
-		cd ~/blog && ls | grep md | tail -1 | xargs open
+		BLOG_DIR=(`ruby ${CONFIG_LOADER} "blog-dir"`)
+		cd $BLOG_DIR && ls | grep md | tail -1 | xargs open
 		cd - &> /dev/null
 		;;
 	blog-update)
-        ruby ~/workspace/poksion-net/metadata-generator/blog-metadata-generator.rb
+		CMD=(`ruby ${CONFIG_LOADER} "blog-metadata"`)
+        ruby $CMD
 		;;
 	project-update)
-        ruby ~/workspace/poksion-net/metadata-generator/project-metadata-generator.rb
+		CMD=(`ruby ${CONFIG_LOADER} "project-metadata"`)
+        ruby $CMD
 		;;
 	blog) 
 		if [ -z "$2" ]
@@ -42,13 +42,14 @@ case "$1" in
 			echo "dn blog title"
 			exit 1
 		fi
-		cd ~/blog && touch "`date +"%Y%m%d%H%M"`-$2.md"
+		BLOG_DIR=(`ruby ${CONFIG_LOADER} "blog-dir"`)
+		cd $BLOG_DIR && touch "`date +"%Y%m%d%H%M"`-$2.md"
         echo -e "$2\n====\n\nTag\n====\n," > "`date +"%Y%m%d%H%M"`-$2.md"
 		cd - &> /dev/null
-		echo ~/blog/`date +"%Y%m%d%H%M"`-$2.md
+		echo $BLOG_DIR/`date +"%Y%m%d%H%M"`-$2.md
 		;;
 	*)
-		echo "dn grep/grep_cgi/todo keyword"
+		echo "dn grep/grep_cgi/grep_todo keyword"
 		echo "dn blog title"
 		echo "dn blog-open-last"
 		echo "dn blog-update"

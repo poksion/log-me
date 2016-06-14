@@ -2,7 +2,7 @@
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative '../../common/lib/os-checker'
-require_relative '../../common/lib/config-loader'
+require_relative '../../common/config-loader'
 
 class WindowLogger
   def log
