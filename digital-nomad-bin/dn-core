@@ -5,35 +5,38 @@ CONFIG_LOADER=$DIR"/common/config-loader.rb"
 
 case "$1" in
 	grep)
-		cd ~/notes && grep -nriI --color "$2" *
+		read NOTES_DIR PUBLIC_DIR BOX_DIR <<<$(ruby $CONFIG_LOADER "notes-public-box-dir")
+		cd $NOTES_DIR && grep -nriI --color "$2" *
 		cd - &> /dev/null
-		cd ~/Dropbox/Public && find . -name "*.md" | xargs grep -nriI --color "$2"
+		cd $PUBLIC_DIR && find . -name "*.md" | xargs grep -nriI --color "$2"
 		cd - &> /dev/null
-		cd ~/Box\ Sync/workingDocs/working && find . -name "*.md" | xargs grep -nriI --color "$2"
+		cd "$BOX_DIR" && find . -name "*.md" | xargs grep -nriI --color "$2"
 		cd - &> /dev/null
         #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dngrep]_"
 		#grep -nriI --color=always "$2" ~/notes/*
 		;;
     grep_todo)
-		grep -nriI --color=always --include \*.ics "$2" ~/Dropbox/Log
+		ICS_DIR=$(ruby $CONFIG_LOADER "log-ics-dir")
+		grep -nriI --color=always --include \*.ics "$2" $ICS_DIR
         #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dntodo]_"
         ;;
 	grep_cgi)
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" ~/Dropbox/Notes
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" ~/Dropbox/Public
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" "~/Box Sync/작업문서/작업중"
+		read NOTES_DIR PUBLIC_DIR BOX_DIR <<<$(ruby $CONFIG_LOADER "notes-public-box-dir")
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" $NOTES_DIR
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" $PUBLIC_DIR
+		grep -nriI --color=always --include \*.md --include \*.txt "$2" "$BOX_DIR"
 		;;
 	blog-open-last)
-		BLOG_DIR=(`ruby ${CONFIG_LOADER} "blog-dir"`)
+		BLOG_DIR=$(ruby $CONFIG_LOADER "blog-dir")
 		cd $BLOG_DIR && ls | grep md | tail -1 | xargs open
 		cd - &> /dev/null
 		;;
 	blog-update)
-		CMD=(`ruby ${CONFIG_LOADER} "blog-metadata"`)
+		CMD=$(ruby $CONFIG_LOADER "blog-metadata")
         ruby $CMD
 		;;
 	project-update)
-		CMD=(`ruby ${CONFIG_LOADER} "project-metadata"`)
+		CMD=$(ruby $CONFIG_LOADER "project-metadata")
         ruby $CMD
 		;;
 	blog) 
@@ -42,7 +45,7 @@ case "$1" in
 			echo "dn blog title"
 			exit 1
 		fi
-		BLOG_DIR=(`ruby ${CONFIG_LOADER} "blog-dir"`)
+		BLOG_DIR=$(ruby $CONFIG_LOADER "blog-dir")
 		cd $BLOG_DIR && touch "`date +"%Y%m%d%H%M"`-$2.md"
         echo -e "$2\n====\n\nTag\n====\n," > "`date +"%Y%m%d%H%M"`-$2.md"
 		cd - &> /dev/null
