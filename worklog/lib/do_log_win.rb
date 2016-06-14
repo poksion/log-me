@@ -11,8 +11,8 @@ require 'FileUtils'
 
 class WindowDoLogger
   
-  def dropbox_sync(worklog_file, dropbox_dir_with_lastslash, machin_name)
-    dropbox_file = dropbox_dir_with_lastslash + 'worklog-' + Time.now.strftime("%Y%m%d") + '-' + machin_name + '.log'
+  def dropbox_sync(worklog_file, dropbox_dir_without_lastslash, machin_name)
+    dropbox_file = dropbox_dir_without_lastslash + '/worklog-' + Time.now.strftime("%Y%m%d") + '-' + machin_name + '.log'
     if not File.exist? dropbox_file
       if File.exist? worklog_file
         FileUtils.move worklog_file, dropbox_file
