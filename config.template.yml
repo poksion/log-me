@@ -21,3 +21,4 @@ paths:
 
 server:
   port : '9494'
+  search_log_file : '~/workspace/search.log'
