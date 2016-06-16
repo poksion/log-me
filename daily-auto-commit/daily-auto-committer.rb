@@ -30,8 +30,10 @@ def git_commit(info_generator, notes_dir, git_cmd)
   `cd #{notes_dir} && #{git_cmd} add -A && #{git_cmd} commit -F #{message_path}`
 end
 
-def log_copy(worklog_file, save_dir)
+def log_copy(worklog_file, searchlog_file, save_dir)
     `cp #{worklog_file} #{save_dir}`
+    `cp #{searchlog_file} #{save_dir}`
+
     bash_save_file = File.join(save_dir, 'bash-history.log')
     `cp ~/.bash_history #{bash_save_file}`
 end
@@ -42,13 +44,14 @@ if __FILE__ == $0
   git_cmd = config_loader.get_git_cmd
   
   worklog_file = config_loader.get_worklog_file_fullpath
+  searchlog_file = config_loader.get_searchlog_file_fullpath
   log_dir = config_loader.get_dropbox_log_dir_fullpath
 
   if check_committerable(notes_dir, git_cmd)
     info_generator = InfoGenerator.new
     if info_generator.is_contents_src_available
       git_commit(info_generator, notes_dir, git_cmd)
-      log_copy(worklog_file, log_dir)
+      log_copy(worklog_file, searchlog_file, log_dir)
     end
   end
 end
