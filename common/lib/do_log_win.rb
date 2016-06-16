@@ -20,7 +20,7 @@ class WindowDoLogger
     end
   end
 
-  def do_log
+  def do_log_work
     active_window_handle = get_active_window_handle
 
     title = get_title(active_window_handle)
@@ -31,6 +31,9 @@ class WindowDoLogger
     date = get_date
     
     "a4 #{ip_addr} #{ssid} #{date} #{proc_name}: #{title}"
+  end
+  
+  def do_log_search(query_word, with_result)
   end
 
   def get_active_window_handle

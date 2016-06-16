@@ -1,12 +1,14 @@
 # encoding: utf-8
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
-require_relative '../../common/lib/os-checker'
-require_relative '../../common/config-loader'
+require_relative 'lib/os-checker'
+require_relative 'config-loader'
+
+# type of log : print, work, search, result
 
 class WindowLogger
-  def log
-    require_relative 'do_log_win'
+  def log_work
+    require_relative 'lib/do_log_win'
 
     config_loader = ConfigLoader.new
     do_logger = WindowDoLogger.new
@@ -18,9 +20,25 @@ class WindowLogger
     do_logger.dropbox_sync(worklog_file, dropbox_dir, comp_name)
 
     File.open(worklog_file, 'a+') do |f|
-      f.puts do_logger.do_log
+      f.puts do_logger.do_log_work
     end
   end
+  
+  def log_print
+    require_relative 'lib/do_log_win'
+    puts do_logger.do_log_work
+  end
+  
+  def log_search(query_word)
+    require_relative 'lib/do_log_win'
+    puts do_logger.do_log_search(query_word, "")
+  end
+
+  def log_result(query_word)
+    require_relative 'lib/do_log_win'
+    puts do_logger.do_log_search(query_word, " _[result_action]_")
+  end
+  
 end
 
 class MacLogger
@@ -33,16 +51,31 @@ class MacLogger
 
     return true
   end
+  
+  def get_apple_script_fullpath
+    File.join(File.expand_path(File.dirname(__FILE__)), 'lib/do_log_mac.scpt')
+  end
 
-  def log
+  def log_work
     if check_login
       config_loader = ConfigLoader.new
       worklog_file = config_loader.get_worklog_file_fullpath
       File.open(worklog_file, 'a+') do |f|
-        osa_script_fullpath = File.join(File.expand_path(File.dirname(__FILE__)), 'do_log_mac.osa')
-        f.puts `osascript #{osa_script_fullpath}`
+        f.puts `osascript #{get_apple_script_fullpath} "work"`
       end
     end
+  end
+  
+  def log_print
+    puts `osascript #{get_apple_script_fullpath} "work"`
+  end
+
+  def log_search(query_word)
+    puts `osascript #{get_apple_script_fullpath} "search" #{query_word}`
+  end
+
+  def log_result(query_word)
+    puts `osascript #{get_apple_script_fullpath} "result" #{query_word}`
   end
 
 end
@@ -61,4 +94,9 @@ class LoggerFactory
       
       return logger
   end
+end
+
+if __FILE__ == $0
+  logger = LoggerFactory.newInstance()
+  logger.log_print
 end
