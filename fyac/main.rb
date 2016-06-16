@@ -1,4 +1,5 @@
 require 'sinatra'
+
 require_relative 'actions/action_search'
 require_relative 'actions/action_trend'
 require_relative 'actions/action_result'
@@ -35,5 +36,9 @@ end
 #set :port, 9494
 
 get '/' do
-  'fyac on sinatra'
+  action = make_action(params["a"])
+  action.act(params['q'])
+
+  action.content
+  #'fyac on sinatra'
 end

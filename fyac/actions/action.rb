@@ -5,7 +5,7 @@ SEARCH_RESULT = RESULT_DIR + "/result.html"
 SEARCH_RESULT_HTTP = "http://localhost/result/result.html"
 SEARCH_LOG = "/Library/WebServer/Documents/log/search.log"
 QUERY_RESULT = RESULT_DIR + "/query.txt"
-FOUNDATION = "/fyac/externs/foundation"
+FOUNDATION = "/foundation"
 
 class Action
 
