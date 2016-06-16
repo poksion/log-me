@@ -26,22 +26,26 @@ class WindowLogger
   
   def log_print
     require_relative 'lib/do_log_win'
+    
+    do_logger = WindowDoLogger.new
     puts do_logger.do_log_work
   end
   
   def log_search(query_word)
-    require_relative 'lib/do_log_win'
-    config_loader = ConfigLoader.new
-    File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
-      f.puts do_logger.do_log_search(query_word, "")
-    end
+    log_search_result(query_word, "")
   end
 
   def log_result(query_word)
+    log_search_result(query_word, " _[result_action]_")
+  end
+  
+  def log_search_result(query_word, result)
     require_relative 'lib/do_log_win'
+    
     config_loader = ConfigLoader.new
+    do_logger = WindowDoLogger.new
     File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
-      f.puts do_logger.do_log_search(query_word, " _[result_action]_")
+      f.puts do_logger.do_log_search(query_word, result)
     end
   end
   

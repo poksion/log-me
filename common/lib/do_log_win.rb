@@ -11,6 +11,10 @@ require 'FileUtils'
 
 class WindowDoLogger
   
+  def encoded_str(raw_str)
+    raw_str.encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "").force_encoding('UTF-8')
+  end
+  
   def dropbox_sync(worklog_file, dropbox_dir_without_lastslash, machin_name)
     dropbox_file = dropbox_dir_without_lastslash + '/worklog-' + Time.now.strftime("%Y%m%d") + '-' + machin_name + '.log'
     if not File.exist? dropbox_file
@@ -34,6 +38,10 @@ class WindowDoLogger
   end
   
   def do_log_search(query_word, with_result)
+    ssid = get_ssid
+    ip_addr = get_ip
+    date = get_date
+    "s1 #{ip_addr} #{ssid} #{date} #{query_word}#{with_result}"
   end
 
   def get_active_window_handle
@@ -75,7 +83,7 @@ class WindowDoLogger
   end
 
   def get_ssid
-    results = `netsh wlan show interfaces`.split( /\r?\n/ )
+    results = encoded_str(`netsh wlan show interfaces`).split( /\r?\n/ )
     results.each do |item|
       if item.include?('SSID')
         return item.sub(/.*SSID.*: /, '')

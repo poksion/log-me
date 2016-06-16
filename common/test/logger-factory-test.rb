@@ -13,8 +13,13 @@ class LoggerFactoryTest < Test::Unit::TestCase
 
   def test_search
     logger = LoggerFactory.newInstance()
-    logger.log_search("신한")
-    logger.log_result("신한")
+    logger.log_search("신한 카드")
+    logger.log_result("신한 카드")
+  end
+  
+  def test_print
+    logger = LoggerFactory.newInstance()
+    logger.log_print
   end
 
 end
