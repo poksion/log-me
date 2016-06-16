@@ -3,6 +3,7 @@
 
 require_relative 'lib/os-checker'
 require 'yaml'
+require 'uri'
 
 class ConfigLoader
 
@@ -29,10 +30,10 @@ class ConfigLoader
   
   def build_server_config(server_config)
     if (server_config == nil or server_config.empty?)
-      @server_port = '9494'
+      @server_port_config = nil
       @search_log_file_fullpath = File.expand_path('~/workspace/search.log')
     else
-      @server_port = server_config['port']
+      @server_port_config = File.join(File.expand_path(@parent_dir), server_config['port_config'])
       @search_log_file_fullpath = File.expand_path(server_config['search_log_file'])
     end
   end
@@ -74,7 +75,13 @@ class ConfigLoader
   end
   
   def get_server_port
-    @server_port.to_i
+    server_port = 9494
+    if(@server_port_config != nil)
+      port_config_contents = YAML.load_file(@server_port_config)
+      permissions = port_config_contents['permissions']
+      server_port = URI(permissions[1]).port
+    end
+    return server_port
   end
   
   def get_searchlog_file_fullpath

@@ -92,7 +92,7 @@ class SearchAction < Action
           if(line.include?(".md:"))
             line.gsub!(/^.*\/Dropbox\/Notes\//, '<a href="openmd://~/notes/');
             line.gsub!(/(~\/notes\/.*\.md)/, '\1">\1</a>');
-            line.gsub!(/^.*\/Dropbox\/Public\/blog\//, '<a href="openmd://~/blog/');
+            line.gsub!(/^.*\/Dropbox\/public\/blog\//, '<a href="openmd://~/blog/');
             line.gsub!(/(~\/blog\/.*\.md)/, '\1">\1</a>');
             line.gsub!(/^.*\/Box Sync\/작업문서\/작업중\//, '<a href="openmd://~/workspace/box-working-docs/');
             line.gsub!(/(~\/workspace\/box-working-docs\/.*\.md)/, '\1">\1</a>');
@@ -112,6 +112,7 @@ class SearchAction < Action
 
       file.write(footer)
 
+      `echo #{query_string} > #{get_query_result_fullpath()}`
       log(query_string, false)
 
     rescue IOError => e

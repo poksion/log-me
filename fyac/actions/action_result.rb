@@ -8,7 +8,7 @@ class ResultAction < Action
         text = <<-TEXT
         <html>
           <head>
-            <META http-equiv="refresh" content="0;URL=#{SEARCH_RESULT_HTTP}">
+            <META http-equiv="refresh" content="0;URL=/result/result.html">
           </head>
         </html>
         TEXT
@@ -16,7 +16,7 @@ class ResultAction < Action
     end
 
     def act(empty_query_string)
-        query_string = File.read(QUERY_RESULT)
+        query_string = File.read(get_query_result_fullpath())
         query_string.gsub!("\n", "")
         log(query_string, true)
     end

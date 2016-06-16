@@ -19,4 +19,9 @@ class ConfigLoaderTest < Test::Unit::TestCase
     puts config_loader.get_computer_name
   end
 
+  def test_port
+    config_loader = ConfigLoader.new
+    puts config_loader.get_server_port
+  end
+
 end

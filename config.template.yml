@@ -20,5 +20,5 @@ paths:
   log_file : '~/workspace/worklog.log'
 
 server:
-  port : '9494'
+  port_config : 'fyac/apps/chrome-menu-result/manifest.json'
   search_log_file : '~/workspace/search.log'

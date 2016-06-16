@@ -11,6 +11,6 @@
   },
   "permissions": [
     "tabs",
-    "http://localhost/"
+    "http://localhost:9494/"
   ]
 }

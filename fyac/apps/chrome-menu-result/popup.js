@@ -1,8 +1,10 @@
 var fyacResultView = {
 
 	requestShow : function() {
+		var manifest = chrome.runtime.getManifest();
+		var uri = manifest.permissions[1] + "/result/result.html"
 		var req = new XMLHttpRequest();
-		req.open("GET", "http://localhost/result/result.html", true);
+		req.open("GET", uri, true);
 		req.responseType = "document"
 		req.onload = this.makeBody_.bind(this);
 		req.send(null);

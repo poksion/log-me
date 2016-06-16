@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name       SearchJump local
 // @namespace  http://poksion.net/
-// @version    0.1
+// @version    0.2
+// @grant       GM_xmlhttpRequest
 // @include    https://www.google.co.kr/webhp?*
 // ==/UserScript==
 
@@ -67,7 +68,7 @@
     }
 
     function make_boxes() {
-        if ((!b) && (keywords != '')) {
+        if ((!b) && (keywords !== '')) {
             b = document.createElement("div");
             b.setAttribute("id","searchSideBar");
             b.setAttribute("style","position: fixed; bottom: 20px; right: 0; padding: 10px 0; background: #eee; border: 1px solid #ccc; border-right: 0; width: 150px; overflow: hidden;");
@@ -75,7 +76,7 @@
 				for (i = 0; i < searchenginearray.length; i++) {
 
 					if (searchenginearray[i][4] == 1) {
-						lg[i] = document.createElement("a")
+						lg[i] = document.createElement("a");
 						lg[i].setAttribute("href", searchenginearray[i][3].replace('--keywords--', keywords));
 						lg[i].setAttribute("target", "_blank");
 						lg[i].setAttribute("style", linkstyle);
@@ -86,12 +87,12 @@
 
 				}
 
-                ls = document.createElement("span")
+                ls = document.createElement("span");
                 ls.setAttribute("style", "text-decoration: none; margin: 0 10px 3px 10px; padding: 3px 8px 3px 8px; display: block; color: #ddf; font-size: 80%; overflow: hidden;");
 				addtext(ls, " ");
                 b.appendChild(ls);
             
-                lmy = document.createElement("p")
+                lmy = document.createElement("p");
                 lmy.setAttribute("style", footerlinkstyle);
                 var lmy_content = document.createTextNode("Loading...");
                 lmy.appendChild(lmy_content);
@@ -99,22 +100,22 @@
             
                 GM_xmlhttpRequest({
                   method: "GET",
-                  url: "http://localhost/fyac/main.rb?a=search&q=" + keywords,
+                  url: "http://localhost:9494/?a=search&q=" + keywords,
                   onload: function(response) {
                     //alert(response.responseText);
                     lmy_content.nodeValue = response.responseText;
                   }
                 });
             
-                lopen = document.createElement("a")
-                lopen.setAttribute("href", "http://localhost/fyac/main.rb?a=result")
+                lopen = document.createElement("a");
+                lopen.setAttribute("href", "http://localhost:9494/?a=result");
                 lopen.setAttribute("target", "_blank");
                 lopen.setAttribute("style", footerlinkstyle);
                 addtext(lopen, "Open result");
                 b.appendChild(lopen);
 
             
-                lc = document.createElement("a")
+                lc = document.createElement("a");
                 lc.setAttribute("style", footerlinkstyle);
                 lc.setAttribute("href","#");
                 lc.setAttribute("onClick","return false;");
@@ -150,7 +151,7 @@
 
 	function addtext(obj, text) {
 		var content = document.createTextNode(text);
-		obj.appendChild(content)
+		obj.appendChild(content);
 	}
 
 	function addEvent(objObject, strEventName, fnHandler) { 

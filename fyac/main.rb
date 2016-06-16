@@ -1,4 +1,5 @@
 require 'sinatra'
+require '../common/config-loader'
 
 require_relative 'actions/action_search'
 require_relative 'actions/action_trend'
@@ -22,18 +23,12 @@ def make_action(action_type)
     end
 end
 
-#Encoding.default_external = Encoding::UTF_8
-#Encoding.default_internal = Encoding::UTF_8
-#  
-#cgi = CGI.new
-#
-#action = make_action(cgi["a"])
-#action.act(cgi["q"])
-#
-#puts cgi.header
-#puts action.content
+def get_port
+  config_loader = ConfigLoader.new
+  return config_loader.get_server_port
+end
 
-#set :port, 9494
+set :port, get_port
 
 get '/' do
   action = make_action(params["a"])

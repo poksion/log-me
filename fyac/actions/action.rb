@@ -3,6 +3,7 @@
 require_relative '../../common/logger-factory'
 
 FOUNDATION = "/foundation"
+QUERY_RESULT = 
 
 class Action
 
@@ -20,6 +21,10 @@ class Action
     else
       logger.log_search(query_string)
     end
+  end
+
+  def get_query_result_fullpath
+    return File.join(File.dirname(File.dirname(__FILE__)), 'public/result/query.txt')
   end
 
 end
