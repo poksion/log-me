@@ -1,4 +1,5 @@
 # encoding: utf-8
+# vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative 'action'
 
@@ -154,10 +155,10 @@ Steam
 MY_CONTENT_TREND
 
 class TrendAction < Action
-    def content
-        return $CONTENT_TREND
-    end
+  def content
+    return $CONTENT_TREND
+  end
     
-    def act(query_string)
-    end
+  def act(query_string)
+  end
 end

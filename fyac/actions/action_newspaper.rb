@@ -1,4 +1,5 @@
 # encoding: utf-8
+# vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative 'action'
 
@@ -219,10 +220,10 @@ $CONTENT_NEWSPAPER = <<-MY_CONTENT_NEWSPAPER
 MY_CONTENT_NEWSPAPER
 
 class NewspaperAction < Action
-    def content
-        return $CONTENT_NEWSPAPER
-    end
+  def content
+    return $CONTENT_NEWSPAPER
+  end
     
-    def act(query_string)
-    end
+  def act(query_string)
+  end
 end

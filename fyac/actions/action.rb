@@ -1,9 +1,9 @@
 # encoding: utf-8
+# vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative '../../common/logger-factory'
 
 FOUNDATION = "/foundation"
-QUERY_RESULT = 
 
 class Action
 
