@@ -71,6 +71,14 @@ on get_search(query_word, with_result)
     return "s1 " & the_ip & " " & the_ssid & " " & the_date & " " & query_word & with_result
 end get_search
 
+on get_merged_query(argv)
+    set merged_query to item 2 of argv
+    repeat with i from 3 to the count of argv
+        set merged_query to merged_query & " " & item i of argv
+    end repeat
+    return merged_query
+end get_merged_query
+
 on run argv
     if item 1 of argv is "work" then
         -- <format-id> <ip> <ssid> <date> <appname> <window-title>
@@ -83,12 +91,12 @@ on run argv
     end if
 
     if item 1 of argv is "search" then
-        set query_word to item 2 of argv
+        set query_word to get_merged_query(argv)
         return get_search(query_word, "")
     end if
 
     if item 1 of argv is "result" then
-        set query_word to item 2 of argv
+        set query_word to get_merged_query(argv)
         return get_search(query_word, " _[result_action]_")
     end if
 
