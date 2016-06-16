@@ -31,12 +31,18 @@ class WindowLogger
   
   def log_search(query_word)
     require_relative 'lib/do_log_win'
-    puts do_logger.do_log_search(query_word, "")
+    config_loader = ConfigLoader.new
+    File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
+      f.puts do_logger.do_log_search(query_word, "")
+    end
   end
 
   def log_result(query_word)
     require_relative 'lib/do_log_win'
-    puts do_logger.do_log_search(query_word, " _[result_action]_")
+    config_loader = ConfigLoader.new
+    File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
+      f.puts do_logger.do_log_search(query_word, " _[result_action]_")
+    end
   end
   
 end
@@ -71,11 +77,17 @@ class MacLogger
   end
 
   def log_search(query_word)
-    puts `osascript #{get_apple_script_fullpath} "search" #{query_word}`
+    config_loader = ConfigLoader.new
+    File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
+      f.puts `osascript #{get_apple_script_fullpath} "search" #{query_word}`
+    end
   end
 
   def log_result(query_word)
-    puts `osascript #{get_apple_script_fullpath} "result" #{query_word}`
+    config_loader = ConfigLoader.new
+    File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
+      f.puts `osascript #{get_apple_script_fullpath} "result" #{query_word}`
+    end
   end
 
 end

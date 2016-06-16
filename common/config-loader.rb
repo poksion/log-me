@@ -13,14 +13,28 @@ class ConfigLoader
     contents = YAML.load_file(config_file_path)
 
     @computer_name = contents['computer_name']
-      
-    paths = contents['paths']
+
+    build_path_config(contents['paths'])
+    build_server_config(contents['server'])
+  end
+  
+  def build_path_config(paths)
     @git_cmd = paths['git']
     @log_dir_fullpath = File.expand_path(paths['log_dir'])
     @log_file_fullpath = File.expand_path(paths['log_file'])
     @blog_dir_fullpath = File.expand_path(paths['blog_dir'])
     @notes_dir_fullpath = File.expand_path(paths['notes_dir'])
     @box_working_dir_fullpath = File.expand_path(paths['box_working_dir'])
+  end
+  
+  def build_server_config(server_config)
+    if (server_config == nil or server_config.empty?)
+      @server_port = '9494'
+      @search_log_file_fullpath = File.expand_path('~/workspace/search.log')
+    else
+      @server_port = server_config['port']
+      @search_log_file_fullpath = File.expand_path(server_config['search_log_file'])
+    end
   end
   
   def get_parent_dir_fullpath
@@ -57,6 +71,14 @@ class ConfigLoader
   
   def get_log_ics_fullpath
     File.join(@log_dir_fullpath, 'backup-calendar')
+  end
+  
+  def get_server_port
+    @server_port.to_i
+  end
+  
+  def get_searchlog_file_fullpath
+    @search_log_file_fullpath
   end
 
 end

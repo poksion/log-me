@@ -18,7 +18,7 @@ def make_action(action_type)
     elsif("newspaper".eql?(action_type))
         return NewspaperAction.new
     else
-        return SearchAction.new
+        return TrendAction.new
     end
 end
 

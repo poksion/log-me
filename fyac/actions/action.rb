@@ -2,7 +2,6 @@
 
 require_relative '../../common/logger-factory'
 
-QUERY_RESULT = RESULT_DIR + "/query.txt"
 FOUNDATION = "/foundation"
 
 class Action
