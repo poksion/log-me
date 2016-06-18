@@ -10,7 +10,7 @@ class PathSelector
   def initialize
     config_loader = ConfigLoader.new
     @blog_dir_path = config_loader.get_blog_dir_fullpath
-    @project_dir_path = File.dirname(@blog_dir_path)
+    @public_dir_path = File.dirname(@blog_dir_path)
 
     if(run_on_mac?)
       require 'iconv'
@@ -32,7 +32,7 @@ class PathSelector
     @blog_dir_path
   end
   
-  def get_project_dirname
-    @project_dir_path
+  def get_public_dirname
+    @public_dir_path
   end
 end

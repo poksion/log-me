@@ -35,10 +35,6 @@ case "$1" in
 		CMD=$(ruby $CONFIG_LOADER "blog-metadata")
         ruby $CMD
 		;;
-	project-update)
-		CMD=$(ruby $CONFIG_LOADER "project-metadata")
-        ruby $CMD
-		;;
 	blog) 
 		if [ -z "$2" ]
 		then
@@ -56,6 +52,5 @@ case "$1" in
 		echo "dn blog title"
 		echo "dn blog-open-last"
 		echo "dn blog-update"
-		echo "dn project-update"
 		;;
 esac
