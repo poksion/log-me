@@ -3,6 +3,11 @@
 
 require 'digest'
 
+# file-tagger
+#  - default config reporting
+# file-tagger config-name
+# file-tagger compare result1 result2
+
 if __FILE__ == $0
   cnt = 0
   parent_dir = '/loading/from/config/'
