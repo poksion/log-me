@@ -31,6 +31,10 @@ case "$1" in
 		cd $BLOG_DIR && ls | grep md | tail -1 | xargs open
 		cd - &> /dev/null
 		;;
+	blog-md-tips)
+		echo "<div align=\"center\"><img src=\"_img/your-img.png\"/></div>"
+		echo "<a name=\"anchor-id\"></a>"
+		;;
 	blog-update)
 		CMD=$(ruby $CONFIG_LOADER "blog-metadata")
         ruby $CMD
@@ -51,6 +55,7 @@ case "$1" in
 		echo "dn grep/grep_cgi/grep_todo keyword"
 		echo "dn blog title"
 		echo "dn blog-open-last"
+		echo "dn blog-md-tips"
 		echo "dn blog-update"
 		;;
 esac
