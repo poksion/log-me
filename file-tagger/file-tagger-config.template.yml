@@ -16,10 +16,12 @@
 file_tagger_config:
   tagger_id : 'photo-manager'
   src:
-    root_path:'/your/src/dir/for/tagging'
-    use_paging : true
-    item_count : 300
+    root_path:'/your/src/dir/for/tagging/'
+    use_multiple_result : true
+    multiple_result_type : directory # or paging
+    paging_item_count : 300
     use_id_hash : true # or use_id_name
+    use_hash_limit : false
     hash_limit : 500MB
     #use_date, use_location
     filter:
@@ -27,7 +29,7 @@ file_tagger_config:
       - include_tag_메인_액자 # path
       - merge_tag_dropbox # path dropbox is added in merging
   target:
-    root_path : '/optional/dir/for/merging'
+    root_path : '/optional/dir/for/merging/'
     use_merging : false # if it is false, target is just ignored
     filter:
       - add_prefix_dropbox
