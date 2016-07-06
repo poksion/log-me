@@ -4,10 +4,13 @@
 require 'yaml'
 require 'digest'
 
+require_relative '../../common/lib/filename-encoder'
+
 class TaggerReporter
   
   def initialize(config_filename)
     
+    @filename_encoder = FilenameEncoder.new
     @parent_path = File.dirname(File.dirname(__FILE__))
 
     if config_filename == nil or config_filename.empty?
@@ -67,7 +70,7 @@ class TaggerReporter
   end
   
   def get_file_name(f)
-    f.gsub(@src_root_path, '')
+    @filename_encoder.encode( f.gsub(@src_root_path, '') )
   end
   
   def get_tags(f)
@@ -75,49 +78,67 @@ class TaggerReporter
     return tags.first(tags.size-1).join(", ")
   end
   
-  def check_duplicated_and_append(item, id_group, duplicated_items)
+  def check_duplicated_and_append(item, id_group, duplicated_item_ids)
       item_id = item['id']
       group_cnt = id_group[item_id].size
-      if group_cnt > 0
-        duplicated_items << item_id
+      if group_cnt > 1
+        duplicated_item_ids << item_id
         return true
       end
       
       return false
   end
   
+  def write_item(f, item)
+    f.puts "---"
+    f.puts "id : '#{item['id']}'"
+    f.puts "  - file_name : '#{item['file_name']}'"
+    f.puts "  - tags : '#{item['tags']}'"
+  end
+  
   def write_result(result_name, result)
     org_cnt = result.size
-    puts org_cnt
     
     id_group = Hash.new { |hash,key| hash[key] = [] }
     result.each { |a| id_group[ a['id'] ] << a }
-    
-    duplicated_items = Array.new
-    result.delete_if { |i| check_duplicated_and_append(i, id_group, duplicated_items) }
-      
-    puts duplicated_items.size
-    puts result.size
-      
+
+    duplicated_item_ids = Array.new
+    result.delete_if { |i| check_duplicated_and_append(i, id_group, duplicated_item_ids) }
     result.sort! {|a, b| a['file_name'] <=> b['file_name']}
-      
+
     result_file_fullpath = File.expand_path( File.join(@parent_path, 'result', result_name) )
+
     File.open(result_file_fullpath, 'w+') do |f|
       f.puts "total : #{org_cnt}"
-      result.each do | item |
-        f.puts "---"
-        f.puts "id : #{item['id']}"
-        f.puts "  - file_name : #{item['file_name']}"
-        f.puts "  - tags : #{item['tags']}"
+      f.puts "  item_per_page : #{org_cnt}"
+      f.puts "  uniq_files : #{result.size}"
+      f.puts "  expected_duplications : #{duplicated_item_ids.size}"
+      
+      duplicated_item_ids.uniq!
+      duplicated_item_ids.each do |id|
+        candidate = id_group[id]
+        only_file_name = Array.new
+        candidate.each { |a| only_file_name << a['file_name'] }
+        f.puts "    - candidate : '#{only_file_name.join(', ')}'"
       end
+
+      duplicated_item_ids.each do |id|
+        candidate = id_group[id]
+        candidate.each { | item | write_item(f, item) }
+      end
+
+      result.each { | item | write_item(f, item) }
     end
+
   end
   
   def report()
     
     result_map = get_result_map
+
     result_map.each do | result_name, result_glob|
       result = Array.new
+
       Dir.glob(result_glob) do |f|
         next unless File.file?(f)
         result_item = Hash.new
@@ -126,6 +147,7 @@ class TaggerReporter
         result_item['tags'] = get_tags(f)
         result << result_item
       end
+
       write_result(result_name, result)
     end
 
