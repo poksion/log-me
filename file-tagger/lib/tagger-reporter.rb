@@ -75,6 +75,23 @@ class TaggerReporter
     return Digest::MD5.file(f).hexdigest
   end
   
+  def get_file_size_kb(f)
+    file_size_kb = File.stat(f).size / 1000
+    file_size_kb = 1 if file_size_kb == 0
+    return file_size_kb
+  end
+  
+  def get_formatted_file_size(file_size_kb)
+    # GB
+    gb_quotient = file_size_kb.fdiv(1000*1000)
+    if gb_quotient > 1
+      return '%.2fGB' % gb_quotient
+    end
+    
+    mb_quotient = file_size_kb.fdiv(1000)
+    return '%.2fMB' % mb_quotient
+  end
+  
   def get_file_name(f)
     @filename_encoder.encode( f.gsub(@src_root_path, '') )
   end
@@ -97,17 +114,21 @@ class TaggerReporter
   
   def write_item(f, item)
     f.puts "---"
-    f.puts "id : '#{item['id']}'"
-    f.puts "  - file_name : '#{item['file_name']}'"
-    f.puts "  - file_full_path : '#{item['file_full_path']}'" if @src_use_file_full_path
-    f.puts "  - tags : '#{item['tags']}'"
+    f.puts "id : \"#{item['id']}\""
+    f.puts "  - file_name : \"#{item['file_name']}\""
+    f.puts "  - file_full_path : \"#{item['file_full_path']}\"" if @src_use_file_full_path
+    f.puts "  - tags : \"#{item['tags']}\""
   end
   
   def write_result(result_name, result)
     org_cnt = result.size
+    total_file_size_kb = 0
     
     id_group = Hash.new { |hash,key| hash[key] = [] }
-    result.each { |a| id_group[ a['id'] ] << a }
+    result.each do | item |
+      id_group[ item['id'] ] << item
+      total_file_size_kb += item['file_size_kb']
+    end
 
     duplicated_item_ids = Array.new
     result.delete_if { |i| check_duplicated_and_append(i, id_group, duplicated_item_ids) }
@@ -117,7 +138,7 @@ class TaggerReporter
 
     File.open(result_file_fullpath, 'w+') do |f|
       f.puts "total : #{org_cnt}"
-      f.puts "  item_per_page : #{org_cnt}"
+      f.puts "  size : \"#{get_formatted_file_size(total_file_size_kb)}\""
       f.puts "  uniq_files : #{result.size}"
       f.puts "  expected_duplications : #{duplicated_item_ids.size}"
       
@@ -126,7 +147,7 @@ class TaggerReporter
         candidate = id_group[id]
         only_file_name = Array.new
         candidate.each { |a| only_file_name << a['file_name'] }
-        f.puts "    - candidate : '#{only_file_name.join(', ')}'"
+        f.puts "    - candidate : \"#{only_file_name.join(', ')}\""
       end
 
       duplicated_item_ids.each do |id|
@@ -149,6 +170,7 @@ class TaggerReporter
       result_item = Hash.new
       result_item['id'] = get_id(f)
       result_item['file_name'] = get_file_name(f)
+      result_item['file_size_kb'] = get_file_size_kb(f)
       result_item['file_full_path'] = @filename_encoder.encode(f)
       result_item['tags'] = get_tags(f)
       result << result_item
@@ -166,7 +188,7 @@ class TaggerReporter
       f.puts "all_results : #{all_results}"
       result_info.each do |key, value|
         f.puts "  result_file:"
-        f.puts "    - file_name : '#{key}'"
+        f.puts "    - file_name : \"#{key}\""
         f.puts "    - item_count : #{value}"
       end
     end
