@@ -2,10 +2,11 @@
 
 #tagger-id-result.yml
 #total : 24039
-#item_per_page : 24039 (or 300, calculation prefix- 001 or 0001)
-#expected_duplication : 53
-# - candidate : 'xxx/xxx/xxx, yyy/yyy/yyy'
-# - candidate : ...   
+#  item_per_page : 24039 (or 300, calculation prefix- 001 or 0001)
+#  uniq_files : 24000
+#  expected_duplications : 39
+#     - candidate : 'xxx/xxx/xxx, yyy/yyy/yyy'
+#     - candidate : ...   
 
 #id : hash-code
 # - file_name : (진짜파일이름, 사진/그밑.. 이렇게 나타냄) (merging eg : dropbox_2015_file_name.jpg)
@@ -16,7 +17,7 @@
 file_tagger_config:
   tagger_id : 'photo-manager'
   src:
-    root_path:'/your/src/dir/for/tagging'
+    root_path : '/your/src/dir/for/tagging'
     use_multiple_result : true
     multiple_result_type : 'directory' # or paging
     paging_item_count : 300
