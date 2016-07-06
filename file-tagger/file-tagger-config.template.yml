@@ -1,15 +1,20 @@
 # http://docs.ansible.com/ansible/YAMLSyntax.html
 
 #tagger-id-result.yml
+#all_results : 24039
+#  result_file :
+#    - file_name : 'tagger-id-result.yml'
+#    - item_count : 24039
+#---
 #total : 24039
-#  item_per_page : 24039 (or 300, calculation prefix- 001 or 0001)
 #  uniq_files : 24000
 #  expected_duplications : 39
 #     - candidate : 'xxx/xxx/xxx, yyy/yyy/yyy'
-#     - candidate : ...   
-
+#     - candidate : ...
+#---
 #id : hash-code
 # - file_name : (진짜파일이름, 사진/그밑.. 이렇게 나타냄) (merging eg : dropbox_2015_file_name.jpg)
+# - file_full_path : '/full/path/for/file.txt'
 # - tags : 'dropbox, 2015'
 # - date :
 # - location : 
@@ -22,6 +27,7 @@ file_tagger_config:
     multiple_result_type : 'directory' # or paging
     paging_item_count : 300
     hash_limit : '100MB'
+    use_file_full_path : true
     #use_date, use_location
     filter:
       - exclude_tag_2015 # path 2015 is exclude from tag

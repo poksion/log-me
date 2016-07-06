@@ -31,13 +31,19 @@ class TaggerReporter
     @src_paging_item_count = src['paging_item_count']
     
     @src_hash_limit = src['hash_limit']
+    
+    @src_use_file_full_path = src['use_file_full_path']
 
+  end
+  
+  def get_tagger_id_result
+    "#{@tagger_id}-result.yml"
   end
   
   def get_result_map
     result_map = Hash.new
     unless @src_use_multiple_result
-      result_map["#{@tagger_id}-result.yml"] = @src_root_path + "**/*"
+      result_map[get_tagger_id_result] = @src_root_path + "**/*"
       return result_map
     end
     
@@ -93,6 +99,7 @@ class TaggerReporter
     f.puts "---"
     f.puts "id : '#{item['id']}'"
     f.puts "  - file_name : '#{item['file_name']}'"
+    f.puts "  - file_full_path : '#{item['file_full_path']}'" if @src_use_file_full_path
     f.puts "  - tags : '#{item['tags']}'"
   end
   
@@ -129,28 +136,59 @@ class TaggerReporter
 
       result.each { | item | write_item(f, item) }
     end
+    
+    return org_cnt
+
+  end
+  
+  def make_result(result_glob)
+    result = Array.new
+
+    Dir.glob(result_glob) do |f|
+      next unless File.file?(f)
+      result_item = Hash.new
+      result_item['id'] = get_id(f)
+      result_item['file_name'] = get_file_name(f)
+      result_item['file_full_path'] = @filename_encoder.encode(f)
+      result_item['tags'] = get_tags(f)
+      result << result_item
+    end
+    
+    return result
+  end
+  
+  def write_result_info(result_info)
+    all_results = 0
+    result_info.each { |key, value| all_results += value }
+
+    result_file_fullpath = File.expand_path( File.join(@parent_path, 'result', get_tagger_id_result) )
+    File.open(result_file_fullpath, 'w+') do |f|
+      f.puts "all_results : #{all_results}"
+      result_info.each do |key, value|
+        f.puts "  result_file:"
+        f.puts "    - file_name : '#{key}'"
+        f.puts "    - item_count : #{value}"
+      end
+    end
 
   end
   
   def report()
     
     result_map = get_result_map
-
-    result_map.each do | result_name, result_glob|
-      result = Array.new
-
-      Dir.glob(result_glob) do |f|
-        next unless File.file?(f)
-        result_item = Hash.new
-        result_item['id'] = get_id(f)
-        result_item['file_name'] = get_file_name(f)
-        result_item['tags'] = get_tags(f)
-        result << result_item
+    
+    if result_map.size == 1 and result_map.keys[0] == get_tagger_id_result
+        write_result(result_map.keys[0], make_result(result_map.values[0]))
+    else
+      result_info = Hash.new
+      result_map.each do | result_name, result_glob|
+        result = make_result(result_glob)
+        cnt =  write_result(result_name, result)
+        result_info[get_file_name(result_name)] = cnt
       end
+      write_result_info(result_info)
 
-      write_result(result_name, result)
     end
-
   end
 
 end
