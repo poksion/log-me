@@ -1,0 +1,21 @@
+{
+  "name": "fyac-web-apps",
+  "homepage": "https://github.com/poksion/log-me",
+  "authors": [
+    "poksion <poksion@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "^15.2.0"
+  }
+}
