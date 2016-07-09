@@ -16,8 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "react": "^15.2.0",
-    "babel": "*",
-    "jquery": "^3.0.0"
+    "angular": "^1.5.7"
   }
 }

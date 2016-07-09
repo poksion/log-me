@@ -6,10 +6,12 @@
     },
     "outline": {
       
+    },
+    "angular1": {
+      
     }
   },
   "libs": [
-    "browser",
-    "jquery"
+    "browser"
   ]
 }

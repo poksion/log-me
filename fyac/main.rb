@@ -10,6 +10,8 @@ require_relative 'actions/action_trend'
 require_relative 'actions/action_result'
 require_relative 'actions/action_newspaper'
 
+require_relative 'apis/file-tagger-shell'
+
 def make_action(action_type)
   #trend template
   #http://foundation.zurb.com/templates/marketing.html
@@ -38,8 +40,13 @@ Encoding.default_internal = Encoding::UTF_8
 set :port, get_port
 
 get '/' do
-  action = make_action(params["a"])
+  action = make_action(params['a'])
   action.act(params['q'])
 
   action.content
+end
+
+get '/apis/file-tagger-shell' do
+  fileTaggerShell = FileTaggerShell.new(params['a'], params['f'])
+  fileTaggerShell.get_response
 end
