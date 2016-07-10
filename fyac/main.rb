@@ -29,17 +29,17 @@ def make_action(action_type)
   end
 end
 
-def get_port
-  config_loader = ConfigLoader.new
-  return config_loader.get_server_port
-end
+$config_loader = ConfigLoader.new
 
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
-set :port, get_port
+set :port, $config_loader.get_server_port
+set :public_folder, 'nas-public' if $config_loader.on_nas?
 
 get '/' do
+  return "restricted on nas" if $config_loader.on_nas?
+   
   action = make_action(params['a'])
   action.act(params['q'])
 
@@ -47,6 +47,8 @@ get '/' do
 end
 
 get '/apis/file-tagger-shell' do
+  return "restricted on nas" if $config_loader.on_nas?
+
   fileTaggerShell = FileTaggerShell.new(params['a'], params['f'])
   fileTaggerShell.get_response
 end

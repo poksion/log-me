@@ -32,9 +32,11 @@ class ConfigLoader
     if (server_config == nil or server_config.empty?)
       @server_port_config = nil
       @search_log_file_fullpath = File.expand_path('~/workspace/search.log')
+      @use_on_nas = false
     else
       @server_port_config = File.join(File.expand_path(@parent_dir), server_config['port_config'])
       @search_log_file_fullpath = File.expand_path(server_config['search_log_file'])
+      @use_on_nas = server_config['use_on_nas']
     end
   end
   
@@ -82,6 +84,10 @@ class ConfigLoader
       server_port = URI(permissions[1]).port
     end
     return server_port
+  end
+  
+  def on_nas?
+    @use_on_nas
   end
   
   def get_searchlog_file_fullpath
