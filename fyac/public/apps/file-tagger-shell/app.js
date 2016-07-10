@@ -63,7 +63,7 @@ angular.
 
       var successCallback = function(response) {
         var id = Date.now();
-        resultStore.duplicated[id] = response.data;
+        resultStore.duplicated[id] = angular.fromJson(response.data)['duplicated'];
         dispatcher.dispatch(ResultEvent.LOADED_RESULT, id);
       };
 
