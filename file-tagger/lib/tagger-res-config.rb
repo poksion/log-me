@@ -8,7 +8,7 @@ class TaggerResConfig
   attr_reader :parent_path, :tagger_id, :src_root_path,
    :src_use_multiple_result, :src_multiple_result_type, :src_paging_item_count,
    :src_hash_limit,
-   :src_use_full_path
+   :src_use_file_full_path
   
   def initialize(config_filename)
     

@@ -15,6 +15,8 @@
 #  duplication_candidates :
 #     - candidate : "xxx/xxx/xxx, yyy/yyy/yyy"
 #     - candidate : ...
+#  duplication_candidates_file_full_path :
+#     - candidate : "/full/path/file.txt, "/full/path/file2.txt"
 #---
 #item :
 # - id : hash-code

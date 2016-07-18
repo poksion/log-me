@@ -115,14 +115,14 @@ class TaggerReporter
     result_file_fullpath = @tagger_res_config.get_result_file_full_path(result_name)
 
     File.open(result_file_fullpath, 'w+') do |f|
-      @tagger_res_result.write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, duplicated_item_ids, id_group)
+      @tagger_res_result.write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, duplicated_item_ids, id_group, @tagger_res_config.src_use_file_full_path)
 
       duplicated_item_ids.each do |id|
         candidate = id_group[id]
-        candidate.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.src_use_full_path) }
+        candidate.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.src_use_file_full_path) }
       end
 
-      result.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.src_use_full_path) }
+      result.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.src_use_file_full_path) }
     end
     
     return org_cnt

@@ -17,7 +17,7 @@ class TaggerResResult
     f.puts "  - tags : \"#{item['tags']}\""
   end
   
-  def write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, uniq_duplicated_item_ids, id_group)
+  def write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, uniq_duplicated_item_ids, id_group, use_file_full_path)
     f.puts "summary :"
     f.puts "  total : #{org_cnt}"
     f.puts "  size : \"#{formatted_file_size}\""
@@ -30,7 +30,17 @@ class TaggerResResult
       only_file_name = Array.new
       candidate.each { |a| only_file_name << a['file_name'] }
       f.puts "    - candidate : \"#{only_file_name.join(', ')}\""
+      
+      if use_file_full_path
+        file_full_path_name = Array.new
+        candidate.each { |a| file_full_path_name << a['file_full_path'] }
+        f.puts "    - candidate_file_full_path : \"#{file_full_path_name.join(', ')}\""
+      end
     end
+    
+    if use_file_full_path
+    end
+
   end
   
   def write_all_results_info(f, result_info)
@@ -52,11 +62,22 @@ class TaggerResResult
     YAML.load_file(result_file_full_path)
   end
   
-  def getDuplicated(result)
-    candidates = result['summary']['duplication_candidates']
-    duplicated = Array.new
-    candidates.each { |i| duplicated << "\"#{i['candidate']}\"" }
-    "{ \"duplicated\" : [ #{duplicated.join(', ')} ] }"
+  def get_duplicated(result)
+    duplication_candidates = result['summary']['duplication_candidates']
+
+    candidate = Array.new
+    candidate_file_pull_path = Array.new
+
+    duplication_candidates.each do |i|
+      candidateStr = i['candidate']
+      if candidateStr != nil and candidateStr.empty? == false
+        candidate << "\"#{candidateStr}\""
+      else
+        candidate_file_pull_path << "\"#{i['candidate_file_full_path']}\""
+      end
+    end
+
+    return "{ \"candidate\" : [ #{candidate.join(', ')} ], \"candidate_file_full_path\" : [ #{candidate_file_pull_path.join(', ')} ] }"
   end
 
 end
