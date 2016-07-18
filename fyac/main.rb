@@ -55,11 +55,6 @@ get '/file-tagger-shell-api' do
   file_tagger_shell_api.get_response
 end
 
-get '/file-tagger-shell' do
-  app_main = File.join(File.dirname(__FILE__), 'apps', 'file-tagger-shell.html')
-  File.read(app_main)
-end
-
 get '/nas-portal' do
   nas_portal = NasPortal.new
   @items = nas_portal.get_items
