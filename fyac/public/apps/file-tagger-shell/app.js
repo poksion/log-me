@@ -1,5 +1,10 @@
+// https://docs.angularjs.org/guide/module
+// Creation versus Retrieval
+// Beware that using angular.module('myModule', []) will create the module myModule and overwrite any existing module named myModule.
+// Use angular.module('myModule') to retrieve an existing module.
+
 angular.
-  module('fileTaggerShell', []).
+  module('fileTaggerShell', ['ab-base64']).
   factory('dispatcher', ['$rootScope', function($rootScope) {
     var dispatcher = {};
     
@@ -48,22 +53,31 @@ angular.
   factory('resultStore', ['ResultAction', 'ResultEvent', 'dispatcher', '$http', function(ResultAction, ResultEvent, dispatcher, $http) {
     var resultStore = {
       duplicated : {},
+      duplicatedFileFullPath : {},
       results : {}
     };
 
     resultStore.getDuplicated = function(id) {
+      console.log(resultStore.duplicated[id])
       return resultStore.duplicated[id];
+    }
+    
+    resultStore.getDuplicatedFileFullPath = function(id) {
+      return resultStore.duplicatedFileFullPath[id];
     }
     
     dispatcher.register(ResultAction.LOAD_RESULT, function(resultFile) {
       var req = {
         method : 'GET',
-        url : '/apis/file-tagger-shell?a=duplicated&f=' + resultFile
+        url : '/file-tagger-shell-api?a=duplicated&f=' + resultFile
       };
 
       var successCallback = function(response) {
         var id = Date.now();
-        resultStore.duplicated[id] = angular.fromJson(response.data)['duplicated'];
+        var duplicatedResult = angular.fromJson(response.data)
+        resultStore.duplicated[id] = duplicatedResult['candidate'];
+        resultStore.duplicatedFileFullPath[id] = duplicatedResult['candidate_file_full_path'];
+
         dispatcher.dispatch(ResultEvent.LOADED_RESULT, id);
       };
 

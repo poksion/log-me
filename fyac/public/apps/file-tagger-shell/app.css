@@ -1,0 +1,13 @@
+.result-duplicated-box {
+	padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #eee;
+    border-left-width: 30px;
+    border-left-color:#d9534f;
+    border-radius: 3px;
+}
+
+.result-duplicated-item {
+	font-size: 14px;
+    padding: 5px;
+}

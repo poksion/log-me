@@ -4,7 +4,7 @@
 require_relative '../../file-tagger/lib/tagger-res-config'
 require_relative '../../file-tagger/lib/tagger-res-result'
 
-class FileTaggerShell
+class FileTaggerShellApi
   def initialize(action, file)
     @action = action
     @file = file
@@ -21,7 +21,7 @@ class FileTaggerShell
     result_file = @tagger_res_config.get_result_file_full_path(@file)
     result = @tagger_res_result.load_result(result_file)
     
-    @tagger_res_result.getDuplicated(result)
+    @tagger_res_result.get_duplicated(result)
   end
 
 end

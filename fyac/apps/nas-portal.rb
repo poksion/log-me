@@ -3,8 +3,10 @@
 
 class NasPortal
 
-  def get_response()
-    "Hello, on nas!"
+  def get_items
+    items = Array.new
+    items << "portal item 1"
+    items << "portal item 2"
   end
 
 end
