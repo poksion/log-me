@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="ko" > <![endif]-->
+<html class="no-js" lang="ko" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nas file manager</title>
+
+  <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. -->
+  <link rel="stylesheet" href="/foundation/css/normalize.css">
+  <link rel="stylesheet" href="/foundation/css/foundation.min.css">
+  <script src="/foundation/js/vendor/custom.modernizr.js"></script>
+
+  <script src="/apps/bower_components/angular/angular.min.js"></script>
+  
+  <link rel="stylesheet" href="/apps/nas-file-manager/app.css">
+  <script src="/apps/nas-file-manager/app.js"></script>
+  
+  <!-- override style -->
+  <style type="text/css">
+    li { margin-left:20px; }
+  </style>
+
+</head>
+<body ng-app="nasFileManager" ng-controller="FileController" ng-init="initList(2)">
+
+  <div class="row">
+    <div class="small-10 small-centered columns">
+       <div class="row">
+         <div class="small-1 columns file-list-header" style="background-color: gold;"><input type="checkbox" ng-model="fileAll" ng-click="checkAllFiles()" style="margin:0;"></div>
+         <div class="small-3 columns file-list-header" style="background-color: red;">미리보기</div>
+         <div class="small-8 columns file-list-header" style="background-color: gold;">파일이름</div>
+       </div>
+       <div class="row">
+         <div class="small-1 columns file-list-header" style="background-color: gold;"><input type="checkbox" ng-model="file[0]" ng-click="checkFile()" style="margin:0;"></div>
+         <div class="small-3 columns file-list-header" style="background-color: red;">미리보기</div>
+         <div class="small-8 columns file-list-header" style="background-color: gold;">파일이름</div>
+       </div>
+       <div class="row">
+         <div class="small-1 columns file-list-header" style="background-color: gold;"><input type="checkbox" ng-model="file[1]" ng-click="checkFile()" style="margin:0;"></div>
+         <div class="small-3 columns file-list-header" style="background-color: red;">미리보기</div>
+         <div class="small-8 columns file-list-header" style="background-color: gold;">파일이름</div>
+       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-4 small-centered columns"><button type="button" class="tiny delete-button" ng-click="deleteFiles()">선택파일 삭제하기</button></div>
+  </div>
+
+  <script src="/foundation/js/vendor/jquery.js"></script>
+  <script src="/foundation/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+
+</html>

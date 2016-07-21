@@ -62,18 +62,20 @@ class TaggerResResult
     YAML.load_file(result_file_full_path)
   end
   
-  def get_duplicated(result)
+  def get_duplicated_as_json(result)
     duplication_candidates = result['summary']['duplication_candidates']
 
     candidate = Array.new
     candidate_file_pull_path = Array.new
 
-    duplication_candidates.each do |i|
-      candidateStr = i['candidate']
-      if candidateStr != nil and candidateStr.empty? == false
-        candidate << "\"#{candidateStr}\""
-      else
-        candidate_file_pull_path << "\"#{i['candidate_file_full_path']}\""
+    if duplication_candidates != nil
+      duplication_candidates.each do |i|
+        candidateStr = i['candidate']
+        if candidateStr != nil and candidateStr.empty? == false
+          candidate << "\"#{candidateStr}\""
+        else
+          candidate_file_pull_path << "\"#{i['candidate_file_full_path']}\""
+        end
       end
     end
 

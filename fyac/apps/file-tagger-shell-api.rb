@@ -21,7 +21,7 @@ class FileTaggerShellApi
     result_file = @tagger_res_config.get_result_file_full_path(@file)
     result = @tagger_res_result.load_result(result_file)
     
-    @tagger_res_result.get_duplicated(result)
+    @tagger_res_result.get_duplicated_as_json(result)
   end
 
 end

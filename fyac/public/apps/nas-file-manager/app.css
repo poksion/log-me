@@ -1,0 +1,18 @@
+.file-list-header {
+	height: 50px;
+	display: flex;
+	align-items: center;
+}
+
+.file-list-item {
+	display: flex;
+	align-items: center;
+}
+
+.delete-button {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

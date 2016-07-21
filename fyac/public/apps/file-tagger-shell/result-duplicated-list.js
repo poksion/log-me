@@ -14,9 +14,11 @@ angular.
     
     resultDuplicatedList.controller = function($scope) {
       $scope.getMgrLink = function(idx) {
-        var ef = encodeURIComponent(base64.encode($scope.resultFileFullPath[idx]));
-        console.log(ef);
-        return "/nas-file-manager?a=mgr&ef=" + ef;
+        if (idx < $scope.resultFileFullPath.length) {
+          var ef = encodeURIComponent(base64.encode($scope.resultFileFullPath[idx]));
+          return "/nas-file-manager?a=mgr&ef=" + ef;
+        }
+        return "";
       };
     };
     
