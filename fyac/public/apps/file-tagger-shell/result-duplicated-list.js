@@ -7,7 +7,12 @@ angular.
       scope.resultCnt = 0;
       resultEventHandlers.loadedResult(function(id) {
         scope.result = resultStore.getDuplicated(id);
-        scope.resultCnt = scope.result.length;
+        var resultCnt = scope.result.length;
+        if (resultCnt == 1 && scope.result[0] == "FAIL") {
+          scope.resultCnt = -1;
+        } else {
+          scope.resultCnt = resultCnt;
+        }
         scope.resultFileFullPath = resultStore.getDuplicatedFileFullPath(id);
       });
     };
@@ -24,6 +29,9 @@ angular.
     
     resultDuplicatedList.template =
       '<div ng-switch="resultCnt">' +
+        '<div ng-switch-when="-1">' +
+          '로딩실패' +
+        '</div>' +
         '<div ng-switch-when="0">' +
           '결과없음' +
         '</div>' +

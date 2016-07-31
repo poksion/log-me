@@ -83,7 +83,7 @@ angular.
 
       var errorCallback = function(response) {
         var id = Date.now();
-        resultStore.duplicated[id] = "로딩실패";
+        resultStore.duplicated[id] = ["FAIL"];
         dispatcher.dispatch(ResultEvent.LOADED_RESULT, id);
       };
 

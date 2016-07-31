@@ -104,7 +104,10 @@ class NasFileManager
   
   def read_img(encoded_file)
     file = CGI::unescape(encoded_file)
-    file = File.join(File.dirname(__FILE__), 'nas-file-not-exist.png') unless File.exist? file
+    
+    if !File.exist? file or ( file.casecmp(".png") != 1 and file.casecmp(".jpg") != 1 and file.casecmp(".jpeg") != 1)
+      file = File.join(File.dirname(__FILE__), 'nas-file-not-exist.png')
+    end
     File.read(file)
   end
   
