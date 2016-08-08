@@ -102,12 +102,20 @@ class NasFileManager
 }
   end
   
+  def is_readable_file(file_name)
+    return false unless File.exist? file_name
+ 
+    acceptable_ext = [".png", ".PNG", ".jpg", ".JPG", ".jpge"]
+    acceptable_ext.each do | ext |
+      return true if file_name.end_with? ext
+    end
+
+    return false
+  end
+  
   def get_view_file(encoded_file)
     file = CGI::unescape(encoded_file)
-    
-    readable_file = (File.exist? file and (file.end_with?(".png") or file.end_with?(".jpg") or file.end_with?(".jpeg") ))
-    readable_file
-    if !readable_file
+    unless is_readable_file(file)
       file = File.join(File.dirname(__FILE__), 'nas-file-not-exist.png')
     end
     return file
