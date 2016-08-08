@@ -63,5 +63,9 @@ end
 
 get '/nas-file-manager' do
   nas_file_manager = NasFileManager.new(params['a'], params['ef'])
+  view_file = nas_file_manager.get_response_as_view
+  if view_file != nil
+    send_file view_file
+  end
   nas_file_manager.get_response
 end

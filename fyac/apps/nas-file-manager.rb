@@ -102,13 +102,15 @@ class NasFileManager
 }
   end
   
-  def read_img(encoded_file)
+  def get_view_file(encoded_file)
     file = CGI::unescape(encoded_file)
     
-    if !File.exist? file or ( file.casecmp(".png") != 1 and file.casecmp(".jpg") != 1 and file.casecmp(".jpeg") != 1)
+    readable_file = (File.exist? file and (file.end_with?(".png") or file.end_with?(".jpg") or file.end_with?(".jpeg") ))
+    readable_file
+    if !readable_file
       file = File.join(File.dirname(__FILE__), 'nas-file-not-exist.png')
     end
-    File.read(file)
+    return file
   end
   
   def delete_files(files)
@@ -116,11 +118,16 @@ class NasFileManager
       File.delete(file)
     end
   end
+  
+  def get_response_as_view()
+    if @action == 'view'
+      return get_view_file(@encoded_files)
+    end
+    return nil
+  end
 
   def get_response()
-    if @action == 'view'
-      read_img(@encoded_files)
-    elsif @action == 'delete'
+    if @action == 'delete'
       files = Base64.decode64( @encoded_files ).force_encoding('UTF-8').split(", ")
       delete_files(files)
       get_delete_success_view(files.join(", "))
