@@ -1,30 +1,31 @@
 # http://docs.ansible.com/ansible/YAMLSyntax.html
 
 #tagger-id-result.yml
-#all_results :
-#  total_item_count : 24039
-#  result_file :
+#
+#- all_results :
+#  - total_item_count : 24039
+#  - result_file :
 #    - file_name : "tagger-id-result.yml"
 #    - item_count : 24039
 #---
-#summary:
-#  total : 24039
-#  size : "86437MB"
-#  uniq_files : 24000
-#  expected_duplications : 39
-#  duplication_candidates :
+#- summary:
+#  - total : 24039
+#  - size : "86437MB"
+#  - uniq_files : 24000
+#  - expected_duplications : 39
+#  - duplication_candidates :
 #     - candidate : "xxx/xxx/xxx, yyy/yyy/yyy"
 #     - candidate : ...
-#  duplication_candidates_file_full_path :
+#  - duplication_candidates_file_full_path :
 #     - candidate : "/full/path/file.txt, "/full/path/file2.txt"
-#---
-#item :
-# - id : hash-code
-# - file_name : (진짜파일이름, 사진/그밑.. 이렇게 나타냄) (merging eg : dropbox_2015_file_name.jpg)
-# - file_full_path : "/full/path/for/file.txt"
-# - tags : "dropbox, 2015"
-# - date :
-# - location : 
+#
+#- item :
+#  - id : hash-code
+#  - file_name : (진짜파일이름, 사진/그밑.. 이렇게 나타냄) (merging eg : dropbox_2015_file_name.jpg)
+#  - file_full_path : "/full/path/for/file.txt"
+#  - tags : "dropbox, 2015"
+#  - date :
+#  - location : 
 
 file_tagger_config:
   tagger_id : 'photo-manager'

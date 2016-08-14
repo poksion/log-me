@@ -47,7 +47,7 @@ class TaggerBuilder
     limit_size = @tagger_res_config.hash_limit[0...-2].to_i * 1000 * 1000
     if File.stat(f).size > limit_size
       md5 = Digest::MD5.new
-      return md5.update(f).hexdigest + "_name"
+      return md5.update(File.basename(f)).hexdigest + "_name"
     end
     
     return Digest::MD5.file(f).hexdigest
@@ -109,7 +109,7 @@ class TaggerBuilder
     duplicated_cnt = duplicated_item_ids.size
     duplicated_item_ids.uniq!
     
-    result_file_fullpath = @tagger_res_config.get_result_file_full_path(result_name)
+    result_file_fullpath = @tagger_res_result.get_result_file_full_path(result_name)
 
     File.open(result_file_fullpath, 'w+') do |f|
       @tagger_res_result.write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, duplicated_item_ids, id_group, @tagger_res_config.use_file_full_path)
@@ -161,7 +161,7 @@ class TaggerBuilder
   end
   
   def write_result_info(result_info)
-    result_file_fullpath = @tagger_res_config.get_result_file_full_path(get_tagger_id_result)
+    result_file_fullpath = @tagger_res_result.get_result_file_full_path(get_tagger_id_result)
     File.open(result_file_fullpath, 'w+') do |f|
       @tagger_res_result.write_all_results_info(f, result_info)
     end

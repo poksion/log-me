@@ -9,8 +9,8 @@ require_relative '../../common/lib/filename-encoder'
 class TaggerResResult
   
   def write_item(f, item, use_file_full_path)
-    f.puts "---"
-    f.puts "item:"
+    f.puts ""
+    f.puts "- item:"
     f.puts "  - id : \"#{item['id']}\""
     f.puts "  - file_name : \"#{item['file_name']}\""
     f.puts "  - file_full_path : \"#{item['file_full_path']}\"" if use_file_full_path
@@ -18,13 +18,13 @@ class TaggerResResult
   end
   
   def write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, uniq_duplicated_item_ids, id_group, use_file_full_path)
-    f.puts "summary :"
-    f.puts "  total : #{org_cnt}"
-    f.puts "  size : \"#{formatted_file_size}\""
-    f.puts "  uniq_files : #{uniq_cnt}"
-    f.puts "  expected_duplications : #{duplicated_cnt}"
+    f.puts "- summary :"
+    f.puts "  - total : #{org_cnt}"
+    f.puts "  - size : \"#{formatted_file_size}\""
+    f.puts "  - uniq_files : #{uniq_cnt}"
+    f.puts "  - expected_duplications : #{duplicated_cnt}"
 
-    f.puts "  duplication_candidates :"
+    f.puts "  - duplication_candidates :"
     uniq_duplicated_item_ids.each do |id|
       candidate = id_group[id]
       only_file_name = Array.new
@@ -47,15 +47,19 @@ class TaggerResResult
     all_results = 0
     result_info.each { |key, value| all_results += value }
 
-    f.puts "all_results :"
-    f.puts "  total_item_count : #{all_results}"
+    f.puts "- all_results :"
+    f.puts "  - total_item_count : #{all_results}"
 
     result_info.each do |key, value|
-      f.puts "---"
-      f.puts "  result_file:"
+      f.puts "  - result_file:"
       f.puts "    - file_name : \"#{key}\""
       f.puts "    - item_count : #{value}"
     end
+  end
+  
+  def get_result_file_full_path(result_file)
+    parent_path = File.dirname(File.dirname(__FILE__))
+    File.expand_path( File.join(parent_path, 'result', result_file) )
   end
   
   def load_result(result_file_full_path)
@@ -63,7 +67,7 @@ class TaggerResResult
   end
   
   def get_duplicated_as_json(result)
-    duplication_candidates = result['summary']['duplication_candidates']
+    duplication_candidates = result[0]['summary'][4]['duplication_candidates']
 
     candidate = Array.new
     candidate_file_pull_path = Array.new

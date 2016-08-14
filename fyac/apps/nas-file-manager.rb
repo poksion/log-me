@@ -105,7 +105,7 @@ class NasFileManager
   def is_readable_file(file_name)
     return false unless File.exist? file_name
  
-    acceptable_ext = [".png", ".PNG", ".jpg", ".JPG", ".jpge"]
+    acceptable_ext = [".png", ".PNG", ".jpg", ".JPG", ".jpeg"]
     acceptable_ext.each do | ext |
       return true if file_name.end_with? ext
     end
