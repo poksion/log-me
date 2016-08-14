@@ -1,14 +1,11 @@
 # encoding: utf-8
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
-require_relative 'lib/tagger-reporter'
+require_relative 'lib/tagger-builder'
 
-def report_tagger(config_filename)
-  tagger_reporter = TaggerReporter.new(config_filename)
-  tagger_reporter.report()
-end
-
-def compare_result(result_0, result_1)
+def build_tagger(config_filename)
+  tagger_builder = TaggerBuilder.new(config_filename)
+  tagger_builder.build()
 end
 
 # file-tagger
@@ -19,17 +16,13 @@ end
 if __FILE__ == $0
 
   valid_argv = true
-  report_mode = true
+  total_build_mode = true
   config_file = ""
 
   if ARGV.length == 0
     config_file = ""
   elsif ARGV.length == 1
     config_file = ARGV[0]
-  elsif ARGV.length == 3
-    valid_argv = false unless ARGV[0] == "compare"
-    result_0 = ARGV[1]
-    result_1 = ARGV[2]
   else
     valid_argv = false
   end
@@ -37,14 +30,11 @@ if __FILE__ == $0
   unless valid_argv
     puts "ruby file-tagger"
     puts "ruby file-tagger config-file.yml"
-    puts "ruby file-tagger compare result-file-0.yml result-file-1.yml"
     return
   end
   
-  if report_mode
-    report_tagger(config_file)
-  else
-    compare_result(result_0, result_1)
+  if total_build_mode
+    build_tagger(config_file)
   end
 
 end

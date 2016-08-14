@@ -28,21 +28,8 @@
 
 file_tagger_config:
   tagger_id : 'photo-manager'
-  src:
-    root_path : '/your/src/dir/for/tagging'
-    use_multiple_result : true
-    multiple_result_type : 'directory' # or paging
-    paging_item_count : 300
-    hash_limit : '100MB'
-    use_file_full_path : true
-    #use_date, use_location
-    filter:
-      - exclude_tag_2015 # path 2015 is exclude from tag
-      - include_tag_메인_액자 # path
-      - merge_tag_dropbox # path dropbox is added in merging
-  target:
-    root_path : '/optional/dir/for/merging'
-    use_merging : false # if it is false, target is just ignored
-    filter:
-      - add_prefix_dropbox
-      - add_suffix_2015
+  root_path : '/your/src/dir/for/tagging'
+  use_multiple_directories_result : false
+  hash_limit : '100MB'
+  use_file_full_path : true
+  exclude_directories : ''

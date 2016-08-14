@@ -8,7 +8,7 @@ require_relative '../../common/lib/filename-encoder'
 require_relative 'tagger-res-config'
 require_relative 'tagger-res-result'
 
-class TaggerReporter
+class TaggerBuilder
   
   def initialize(config_filename)
     
@@ -23,31 +23,28 @@ class TaggerReporter
   
   def get_result_map
     result_map = Hash.new
-    unless @tagger_res_config.src_use_multiple_result
-      result_map[get_tagger_id_result] = @tagger_res_config.src_root_path + "**/*"
-      return result_map
-    end
     
-    # directory
-    if @tagger_res_config.src_multiple_result_type == 'directory'
-      Dir.glob(@tagger_res_config.src_root_path + '*/') do |f|
+    if @tagger_res_config.use_multiple_directories_result
+      # multiple directory
+      Dir.glob(@tagger_res_config.root_path + '*/') do |f|
         next unless File.directory?(f)
-        result_name = f.gsub(@tagger_res_config.src_root_path, '')[0...-1] + "-result.yml"
+        result_name = f.gsub(@tagger_res_config.root_path, '')[0...-1] + "-result.yml"
         result_glob = f + "**/*"
         result_map[result_name] = result_glob
       end
-      return result_map
+    else
+      result_map[get_tagger_id_result] = @tagger_res_config.root_path + "**/*"
     end
-    
-    # paging
-    if @tagger_res_config.src_multiple_result_type == 'paging'
-    end
-    
+
     return result_map
   end
   
-  def get_id(f)
-    limit_size = @tagger_res_config.src_hash_limit[0...-2].to_i * 1000 * 1000
+  def get_id(f, use_defulat_id)
+    if use_defulat_id
+      return 0 unless File.exist? f
+    end
+
+    limit_size = @tagger_res_config.hash_limit[0...-2].to_i * 1000 * 1000
     if File.stat(f).size > limit_size
       md5 = Digest::MD5.new
       return md5.update(f).hexdigest + "_name"
@@ -73,12 +70,12 @@ class TaggerReporter
     return '%.2fMB' % mb_quotient
   end
   
-  def get_file_name(f)
-    @filename_encoder.encode( f.gsub(@tagger_res_config.src_root_path, '') )
+  def get_file_name_from_unencoded(f)
+    @filename_encoder.encode( f.gsub(@tagger_res_config.root_path, '') )
   end
   
-  def get_tags(f)
-    tags = get_file_name(f).split('/')
+  def get_tags_from_unencoded(f)
+    tags = get_file_name_from_unencoded(f).split('/')
     return tags.first(tags.size-1).join(", ")
   end
   
@@ -115,18 +112,31 @@ class TaggerReporter
     result_file_fullpath = @tagger_res_config.get_result_file_full_path(result_name)
 
     File.open(result_file_fullpath, 'w+') do |f|
-      @tagger_res_result.write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, duplicated_item_ids, id_group, @tagger_res_config.src_use_file_full_path)
+      @tagger_res_result.write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, duplicated_item_ids, id_group, @tagger_res_config.use_file_full_path)
 
       duplicated_item_ids.each do |id|
         candidate = id_group[id]
-        candidate.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.src_use_file_full_path) }
+        candidate.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.use_file_full_path) }
       end
 
-      result.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.src_use_file_full_path) }
+      result.each { | item | @tagger_res_result.write_item(f, item, @tagger_res_config.use_file_full_path) }
     end
     
     return org_cnt
 
+  end
+  
+  def is_in_exclude_directories(file_name_encoded_fullpath)
+    exclude_directories = @tagger_res_config.exclude_directories.split(", ")
+    return false if exclude_directories == nil or exclude_directories.size == 0
+
+    exclude_directories.each do |exclude_directory|
+      if file_name_encoded_fullpath.include? exclude_directory
+        return true
+      end
+    end
+    
+    return false
   end
   
   def make_result(result_glob)
@@ -134,12 +144,16 @@ class TaggerReporter
 
     Dir.glob(result_glob) do |f|
       next unless File.file?(f)
+      
+      filename_full_path = @filename_encoder.encode(f)
+      next if is_in_exclude_directories(filename_full_path)
+
       result_item = Hash.new
-      result_item['id'] = get_id(f)
-      result_item['file_name'] = get_file_name(f)
+      result_item['id'] = get_id(f, false)
+      result_item['file_name'] = get_file_name_from_unencoded(f)
       result_item['file_size_kb'] = get_file_size_kb(f)
-      result_item['file_full_path'] = @filename_encoder.encode(f)
-      result_item['tags'] = get_tags(f)
+      result_item['file_full_path'] = filename_full_path
+      result_item['tags'] = get_tags_from_unencoded(f)
       result << result_item
     end
     
@@ -153,7 +167,7 @@ class TaggerReporter
     end
   end
   
-  def report()
+  def build()
     result_map = get_result_map
 
     if result_map.size == 1 and result_map.keys[0] == get_tagger_id_result
@@ -163,7 +177,7 @@ class TaggerReporter
       result_map.each do | result_name, result_glob|
         result = make_result(result_glob)
         cnt =  write_result(result_name, result)
-        result_info[get_file_name(result_name)] = cnt
+        result_info[get_file_name_from_unencoded(result_name)] = cnt
       end
       write_result_info(result_info)
     end
