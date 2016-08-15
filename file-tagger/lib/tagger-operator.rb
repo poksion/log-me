@@ -100,6 +100,36 @@ class TaggerOpDup < TaggerOpBase
 
 end
 
+class TaggerOpDupSummary < TaggerOpBase
+  
+  def initialize(op_lhs_name)
+    @saved_name = op_lhs_name.gsub(".yml", "-summary.yml")
+  end
+
+  def on_begin
+    @duplicate_files = Array.new
+    @duplicate_full_path = Array.new
+  end
+
+  def on_compare_item_and_break_if(lhs_item, rhs_item)
+    if lhs_item[0]['id'] == rhs_item[0]['id']
+      @duplicate_files << [ lhs_item[1]['file_name'], rhs_item[1]['file_name'] ]
+      @duplicate_full_path << [ lhs_item[2]['file_full_path'], rhs_item[2]['file_full_path'] ]
+    end
+    # non-break
+    return nil
+  end
+
+  def on_end
+    tagger_res_result = TaggerResResult.new
+    summary_file_name = tagger_res_result.get_result_file_full_path(@saved_name)
+    File.open(summary_file_name, 'w+') do |f|
+      tagger_res_result.write_summary_wtih_duplicates(f, @duplicate_files, @duplicate_full_path)
+    end
+  end
+
+end
+
 class TaggerOperator
   
   def initialize(op_type, op_lhs, op_rhs)
@@ -121,13 +151,13 @@ class TaggerOperator
   
   def show_result
     if @op_type == 'sub'
-      col_cnt = 1
       tagger_op = TaggerOpSub.new
     elsif @op_type == 'dup'
-      col_cnt = 2
       tagger_op = TaggerOpDup.new
+    elsif @op_type == 'dup-summary'
+      tagger_op = TaggerOpDupSummary.new(@op_lhs)
     else
-      puts "not impleted op_type : only for 'sub' and 'dup'"
+      puts "not impleted op_type : only for 'sub', 'dup' and 'dup-summary'"
       return
     end
 

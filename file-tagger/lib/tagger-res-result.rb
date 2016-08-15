@@ -17,6 +17,23 @@ class TaggerResResult
     f.puts "  - tags : \"#{item['tags']}\""
   end
   
+  def write_summary_wtih_duplicates(f, duplicate_file_names, duplicate_full_path)
+    row_cnt = duplicate_file_names.size
+    duplicated_cnt = row_cnt * 2
+    f.puts "- summary :"
+    f.puts "  - total : #{duplicated_cnt}"
+    f.puts "  - size : \"--GB\""
+    f.puts "  - uniq_files : 0"
+    f.puts "  - expected_duplications : #{duplicated_cnt}"
+    f.puts "  - duplication_candidates :"
+    (1..row_cnt).each do |i|
+      only_file_name = duplicate_file_names[i-1]
+      file_full_path_name = duplicate_full_path[i-1]
+      f.puts "    - candidate : \"#{only_file_name.join(', ')}\""
+      f.puts "    - candidate_file_full_path : \"#{file_full_path_name.join(', ')}\""
+    end
+  end
+  
   def write_summary(f, org_cnt, formatted_file_size, uniq_cnt, duplicated_cnt, uniq_duplicated_item_ids, id_group, use_file_full_path)
     f.puts "- summary :"
     f.puts "  - total : #{org_cnt}"
