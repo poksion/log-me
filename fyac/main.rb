@@ -9,6 +9,7 @@ require_relative 'actions/action_search'
 require_relative 'actions/action_trend'
 require_relative 'actions/action_result'
 require_relative 'actions/action_newspaper'
+require_relative 'actions/action_seeds'
 
 require_relative 'apps/file-tagger-shell-api'
 
@@ -27,6 +28,8 @@ def make_action(action_type)
     return SearchAction.new
   elsif("newspaper".eql?(action_type))
     return NewspaperAction.new
+  elsif("seeds".eql?(action_type))
+    return SeedsAction.new
   else
     return TrendAction.new
   end

@@ -14,13 +14,9 @@ class Action
   def act(query_string)
   end
   
-  def log(query_string, is_result_action)
+  def log(log_value, log_type)
     logger = LoggerFactory.newInstance()
-    if(is_result_action)
-      logger.log_result(query_string)
-    else
-      logger.log_search(query_string)
-    end
+    logger.log(log_value, log_type)
   end
 
   def get_query_result_fullpath

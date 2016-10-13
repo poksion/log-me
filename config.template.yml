@@ -22,4 +22,5 @@ paths:
 server:
   port_config : 'fyac/extern-apps/chrome-menu-result/manifest.json'
   search_log_file : '~/workspace/search.log'
+  seeds_log_file : '~/workspace/seeds.log'
   use_on_nas : false

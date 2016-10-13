@@ -64,12 +64,12 @@ on get_ssid()
     return the_ssid
 end get_ssid
 
-on get_search(query_word, with_result)
+on get_server_log(log_version, query_word, with_result)
     set the_ip to get_ip()
     set the_ssid to get_ssid()
     set the_date to get_date()
-    return "s1 " & the_ip & " " & the_ssid & " " & the_date & " " & query_word & with_result
-end get_search
+    return log_version & " " & the_ip & " " & the_ssid & " " & the_date & " " & query_word & with_result
+end get_server_log
 
 on get_merged_query(argv)
     set merged_query to item 2 of argv
@@ -92,12 +92,18 @@ on run argv
 
     if item 1 of argv is "search" then
         set query_word to get_merged_query(argv)
-        return get_search(query_word, "")
+        return get_server_log("s1", query_word, "")
     end if
 
     if item 1 of argv is "result" then
         set query_word to get_merged_query(argv)
-        return get_search(query_word, " _[result_action]_")
+        return get_server_log("s1", query_word, " _[result_action]_")
+    end if
+
+    if item 1 of argv is "seeds" then
+        -- s is used in search, use h as history
+        set query_word to get_merged_query(argv)
+        return get_server_log("h1", query_word, "")
     end if
 
 end run

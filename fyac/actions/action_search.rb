@@ -114,7 +114,7 @@ class SearchAction < Action
       file.write(footer)
 
       `echo #{query_string} > #{get_query_result_fullpath()}`
-      log(query_string, false)
+      log(query_string, :search)
 
     rescue IOError => e
       #some error occur (eg. DIR not writable, etc.)

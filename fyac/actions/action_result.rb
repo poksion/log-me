@@ -20,7 +20,7 @@ class ResultAction < Action
     query_string = File.read(get_query_result_fullpath())
     query_string.gsub!("\n", "")
 
-    log(query_string, true)
+    log(query_string, :result)
   end
 
 end

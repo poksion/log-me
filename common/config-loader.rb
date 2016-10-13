@@ -32,10 +32,12 @@ class ConfigLoader
     if (server_config == nil or server_config.empty?)
       @server_port_config = nil
       @search_log_file_fullpath = File.expand_path('~/workspace/search.log')
+      @seeds_log_file_fullpath = File.expand_path('~/workspace/seeds.log')
       @use_on_nas = false
     else
       @server_port_config = File.join(File.expand_path(@parent_dir), server_config['port_config'])
       @search_log_file_fullpath = File.expand_path(server_config['search_log_file'])
+      @seeds_log_file_fullpath = File.expand_path(server_config['seeds_log_file'])
       @use_on_nas = server_config['use_on_nas']
     end
   end
@@ -92,6 +94,10 @@ class ConfigLoader
   
   def get_searchlog_file_fullpath
     @search_log_file_fullpath
+  end
+
+  def get_seedslog_file_fullpath
+    @seeds_log_file_fullpath
   end
 
 end
