@@ -116,7 +116,7 @@ if __FILE__ == $0
   when 'log-ics-dir'
     config_loader.get_log_ics_fullpath
   else
-    'check-parameter'
+    'check-parameter : blog-metadata, blog-dir, notes-public-box-dir and log-ics-dir'
   end
 
 end

@@ -12,7 +12,7 @@ class OsCheckerTest < Test::Unit::TestCase
 
   def test_include
     os_checker_mock = OsCheckerMock.new
-    assert_equal(os_checker_mock.run_on_mac?, os_checker_mock.run_on_mac?)
+    assert_equal((/darwin/ =~ RUBY_PLATFORM) != nil, os_checker_mock.run_on_mac?) 
   end
 
 end
