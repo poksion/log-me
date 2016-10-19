@@ -6,7 +6,7 @@ require_relative '../../common/lib/filename-encoder'
 
 class PathSelector
 
-  def initialize
+  def initialize(config_file_name = 'config.yml')
     config_loader = ConfigLoader.new
     @blog_dir_path = config_loader.get_blog_dir_fullpath
     @public_dir_path = File.dirname(@blog_dir_path)

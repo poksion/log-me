@@ -7,10 +7,10 @@ require 'uri'
 
 class ConfigLoader
 
-  def initialize
+  def initialize(config_file_name = 'config.yml')
     @parent_dir = File.dirname(File.dirname(__FILE__))
 
-    config_file_path = File.join(File.expand_path(@parent_dir), 'config.yml')
+    config_file_path = File.join(File.expand_path(@parent_dir), config_file_name)
     contents = YAML.load_file(config_file_path)
 
     @computer_name = contents['computer_name']

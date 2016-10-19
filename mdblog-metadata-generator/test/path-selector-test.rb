@@ -6,9 +6,10 @@ require_relative '../lib/path-selector'
 
 class PathSelectorTest < Test::Unit::TestCase
   def test_path
-    path_selector = PathSelector.new
-    puts path_selector.get_blog_dirname
-    puts path_selector.get_project_dirname
+    path_selector = PathSelector.new('config.template.yml')
+    puts path_selector.get_public_dirname
+    assert_true(path_selector.get_blog_dirname.include?('/Dropbox/public'))
+    assert_true(path_selector.get_blog_dirname.include?('/Dropbox/public/blog'))
   end
   
 end
