@@ -4,6 +4,9 @@ case "$1" in
 	*.md | *.kt | *.kts)
 		/c/Program\ Files\ \(x86\)/Notepad++/notepad++.exe "$1"
 		;;
+	http*)
+		/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe "$1"
+		;;
 	*)
 		echo "not supported file"
 		;;
