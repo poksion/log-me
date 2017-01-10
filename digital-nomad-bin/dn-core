@@ -12,13 +12,10 @@ case "$1" in
 		cd - &> /dev/null
 		cd "$BOX_DIR" && find . -name "*.md" | xargs grep -nriI --color "$2"
 		cd - &> /dev/null
-        #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dngrep]_"
-		#grep -nriI --color=always "$2" ~/notes/*
 		;;
     grep_todo)
 		ICS_DIR=$(ruby $CONFIG_HANDLER "log-ics-dir")
 		grep -nriI --color=always --include \*.ics "$2" $ICS_DIR
-        #ruby ~/workspace/fyac/actions/action.rb "$2" " _[result_dntodo]_"
         ;;
 	grep_cgi)
 		read NOTES_DIR PUBLIC_DIR BOX_DIR <<<$(ruby $CONFIG_HANDLER "notes-public-box-dir")

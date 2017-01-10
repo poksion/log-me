@@ -1,7 +1,0 @@
-#! /usr/bin/env sh
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-MAIN_RB=$DIR"/main.rb"
-
-#ruby $MAIN_RB > ~/workspace/fyac-server.log 2>&1 &
-ruby $MAIN_RB &
