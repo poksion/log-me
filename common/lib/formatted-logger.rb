@@ -1,14 +1,14 @@
 # encoding: utf-8
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
-require_relative 'lib/os-checker'
-require_relative 'lib/config-loader'
+require_relative 'os-checker'
+require_relative 'config-loader'
 
 # type of log : print, work, search, result
 
 class WindowLogger
   def log_work
-    require_relative 'lib/do_log_win'
+    require_relative 'do_log_win'
 
     config_loader = ConfigLoader.new
     do_logger = WindowDoLogger.new
@@ -25,7 +25,7 @@ class WindowLogger
   end
   
   def log_print
-    require_relative 'lib/do_log_win'
+    require_relative 'do_log_win'
     
     do_logger = WindowDoLogger.new
     puts do_logger.do_log_work
@@ -42,7 +42,7 @@ class WindowLogger
   end
   
   def log_search_result(query_word, result)
-    require_relative 'lib/do_log_win'
+    require_relative 'do_log_win'
     
     config_loader = ConfigLoader.new
     do_logger = WindowDoLogger.new
@@ -65,7 +65,7 @@ class MacLogger
   end
   
   def get_apple_script_fullpath
-    File.join(File.expand_path(File.dirname(__FILE__)), 'lib/do_log_mac.scpt')
+    File.join(File.dirname(File.expand_path(__FILE__)), 'do_log_mac.scpt')
   end
 
   def log_work
@@ -120,9 +120,4 @@ class LoggerFactory
       
       return logger
   end
-end
-
-if __FILE__ == $0
-  logger = LoggerFactory.newInstance()
-  logger.log_print
 end

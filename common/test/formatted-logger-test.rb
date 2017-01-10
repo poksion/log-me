@@ -2,7 +2,7 @@
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require 'test/unit'
-require_relative '../formatted-logger'
+require_relative '../lib/formatted-logger'
 
 class LoggerFactoryTest < Test::Unit::TestCase
 
