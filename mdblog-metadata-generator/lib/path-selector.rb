@@ -1,7 +1,7 @@
 # encoding: utf-8
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
-require_relative '../../common/config-loader'
+require_relative '../../common/lib/config-loader'
 require_relative '../../common/lib/filename-encoder'
 
 class PathSelector

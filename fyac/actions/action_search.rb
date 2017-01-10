@@ -4,7 +4,7 @@
 require 'shellwords'
 
 require_relative 'action'
-require_relative '../../common/config-loader'
+require_relative '../../common/lib/config-loader'
 
 class SearchAction < Action
   def content

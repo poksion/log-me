@@ -1,16 +1,17 @@
 # encoding: utf-8
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
-require_relative 'lib/os-checker'
+require_relative 'os-checker'
 require 'yaml'
 require 'uri'
 
 class ConfigLoader
 
   def initialize(config_file_name = 'config.yml')
-    @parent_dir = File.dirname(File.dirname(__FILE__))
+    # lib -> common -> project directory
+    @project_dir = File.dirname( File.dirname(File.dirname(File.expand_path(__FILE__))) )
 
-    config_file_path = File.join(File.expand_path(@parent_dir), config_file_name)
+    config_file_path = File.join(@project_dir, config_file_name)
     contents = YAML.load_file(config_file_path)
 
     @computer_name = contents['computer_name']
@@ -35,15 +36,15 @@ class ConfigLoader
       @seeds_log_file_fullpath = File.expand_path('~/workspace/seeds.log')
       @use_on_nas = false
     else
-      @server_port_config = File.join(File.expand_path(@parent_dir), server_config['port_config'])
+      @server_port_config = File.join(@project_dir, server_config['port_config'])
       @search_log_file_fullpath = File.expand_path(server_config['search_log_file'])
       @seeds_log_file_fullpath = File.expand_path(server_config['seeds_log_file'])
       @use_on_nas = server_config['use_on_nas']
     end
   end
   
-  def get_parent_dir_fullpath
-    @parent_dir
+  def get_project_dir_fullpath
+    @project_dir
   end
 
   def get_computer_name
@@ -98,25 +99,6 @@ class ConfigLoader
 
   def get_seedslog_file_fullpath
     @seeds_log_file_fullpath
-  end
-
-end
-
-if __FILE__ == $0
-  config_loader = ConfigLoader.new
-
-  puts case ARGV[0]
-  when 'blog-metadata'
-    File.join(config_loader.get_parent_dir_fullpath, "mdblog-metadata-generator/blog-metadata-generator.rb")
-  when 'blog-dir'
-    config_loader.get_blog_dir_fullpath
-  when 'notes-public-box-dir'
-    public_dir = File.dirname(config_loader.get_blog_dir_fullpath())
-    "#{config_loader.get_notes_dir_fullpath} #{public_dir} #{config_loader.get_box_working_dir_fullpath}"
-  when 'log-ics-dir'
-    config_loader.get_log_ics_fullpath
-  else
-    'check-parameter : blog-metadata, blog-dir, notes-public-box-dir and log-ics-dir'
   end
 
 end

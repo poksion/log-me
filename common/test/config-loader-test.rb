@@ -2,7 +2,7 @@
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require 'test/unit'
-require_relative '../config-loader'
+require_relative '../lib/config-loader'
 
 class ConfigLoaderTest < Test::Unit::TestCase
 

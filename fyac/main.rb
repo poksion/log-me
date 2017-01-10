@@ -3,7 +3,7 @@
 
 require 'sinatra'
 
-require_relative '../common/config-loader'
+require_relative '../common/lib/config-loader'
 
 require_relative 'actions/action_search'
 require_relative 'actions/action_trend'

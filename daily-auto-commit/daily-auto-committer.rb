@@ -2,7 +2,7 @@
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative 'lib/daily-auto-info-generator'
-require_relative '../common/config-loader'
+require_relative '../common/lib/config-loader'
 require 'tempfile'
 
 def check_committerable(notes_dir, git_cmd)

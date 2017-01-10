@@ -2,7 +2,7 @@
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative 'lib/os-checker'
-require_relative 'config-loader'
+require_relative 'lib/config-loader'
 
 # type of log : print, work, search, result
 
