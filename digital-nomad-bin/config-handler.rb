@@ -8,7 +8,7 @@ if __FILE__ == $0
 
   puts case ARGV[0]
   when 'blog-metadata'
-    File.join(config_loader.get_parent_dir_fullpath, "mdblog-metadata-generator/blog-metadata-generator.rb")
+    File.join(config_loader.get_project_dir_fullpath, "mdblog-metadata-generator/blog-metadata-generator.rb")
   when 'blog-dir'
     config_loader.get_blog_dir_fullpath
   when 'notes-public-box-dir'
