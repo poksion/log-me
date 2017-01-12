@@ -18,7 +18,7 @@ class TaggerBuilderTest < Test::Unit::TestCase
 
   def test_tagger_builder_get_tags
     tagger_builder = TaggerBuilder.new("")
-    puts tagger_builder.get_tags_from_unencoded('/test/with/file.avi')
+    puts tagger_builder.get_tags_from_unencoded('test/with/file.avi')
   end
 
 end
