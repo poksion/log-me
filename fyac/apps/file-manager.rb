@@ -4,7 +4,7 @@
 require 'base64'
 require 'cgi'
 
-class NasFileManager
+class FileManager
 
   def initialize(action, encoded_files)
     @action = action
@@ -29,14 +29,14 @@ class NasFileManager
   <script src="/apps/bower_components/angular/angular.min.js"></script>
   <script src="/apps/bower_components/angular-utf8-base64/angular-utf8-base64.min.js"></script>
   
-  <link rel="stylesheet" href="/apps/nas-file-manager/app.css">
-  <script src="/apps/nas-file-manager/app.js"></script>
+  <link rel="stylesheet" href="/apps/file-manager/app.css">
+  <script src="/apps/file-manager/app.js"></script>
 
 </head>
 
 }
     if use_ng_app
-      begin_body += %{<body ng-app="nasFileManager" ng-controller="FileController" ng-init="initList(#{cnt})">}
+      begin_body += %{<body ng-app="fileManager" ng-controller="FileController" ng-init="initList(#{cnt})">}
     else
       begin_body += %{<body>}
     end
@@ -82,7 +82,7 @@ class NasFileManager
       item_view = %{
        <div class="row" data-equalizer>
          <div class="small-1 columns file-list-item" data-equalizer-watch><input type="checkbox" ng-model="file[#{idx}]" ng-click="checkFile()" style="margin:0;"></div>
-         <div class="small-3 columns file-list-item" data-equalizer-watch><img src="/nas-file-manager?a=view&ef=#{CGI::escape(file)}"></div>
+         <div class="small-3 columns file-list-item" data-equalizer-watch><img src="/file-manager?a=view&ef=#{CGI::escape(file)}"></div>
          <div class="small-8 columns file-list-item" data-equalizer-watch ng-init="setFileName(#{idx}, '#{file}')" >#{file}</div>
        </div>
       }
@@ -116,7 +116,7 @@ class NasFileManager
   def get_view_file(encoded_file)
     file = CGI::unescape(encoded_file)
     unless is_readable_file(file)
-      file = File.join(File.dirname(__FILE__), 'nas-file-not-exist.png')
+      file = File.join(File.dirname(__FILE__), 'file-not-exist.png')
     end
     return file
   end

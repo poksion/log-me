@@ -5,6 +5,7 @@ require 'yaml'
 require 'digest'
 
 require_relative '../../common/lib/filename-encoder'
+require_relative '../../common/lib/config-loader'
 
 class TaggerResResult
   
@@ -75,8 +76,17 @@ class TaggerResResult
   end
   
   def get_result_file_full_path(result_file)
-    parent_path = File.dirname(File.dirname(__FILE__))
-    File.expand_path( File.join(parent_path, result_file) )
+    result_file_space = result_file.split(":")
+    result = ""
+    if result_file_space.size == 1
+      parent_path = File.dirname(File.dirname(__FILE__))
+      result = File.expand_path( File.join(parent_path, result_file) )
+    else
+      config_loader = ConfigLoader.new
+      parent_path = config_loader.get_file_tagger_cloud_dir_fullpath
+      result = File.expand_path( File.join(parent_path, result_file_space[0], result_file_space[1]) )
+    end
+    result
   end
   
   def load_result(result_file_full_path)

@@ -1,5 +1,5 @@
 angular.
-  module('nasFileManager', ['ab-base64']).
+  module('fileManager', ['ab-base64']).
   controller('FileController', ['$scope','$window', 'base64', function($scope, $window, base64) {
     
     $scope.initList = function(cnt) {
@@ -42,7 +42,7 @@ angular.
       }
 
       var ef = encodeURIComponent(base64.encode(checkedFileNames.join(", ")));
-      $window.location.href = "/nas-file-manager?a=delete&ef=" + ef;
+      $window.location.href = "/file-manager?a=delete&ef=" + ef;
     };
     
   }]);

@@ -28,7 +28,7 @@ class TaggerBuilder
       # multiple directory
       Dir.glob(@tagger_res_config.root_path + '*/') do |f|
         next unless File.directory?(f)
-        result_name = f.gsub(@tagger_res_config.root_path, '')[0...-1] + "-result.yml"
+        result_name = "result-#{f.gsub(@tagger_res_config.root_path, '')[0...-1]}.yml"
         result_glob = f + "**/*"
         result_map[result_name] = result_glob
       end

@@ -1,11 +1,11 @@
 # http://docs.ansible.com/ansible/YAMLSyntax.html
 
-#tagger-id-result.yml
+#result-tagger-id.yml
 #
 #- all_results :
 #  - total_item_count : 24039
 #  - result_file :
-#    - file_name : "tagger-id-result.yml"
+#    - file_name : "result-tagger-id.yml"
 #    - item_count : 24039
 #---
 #- summary:

@@ -21,7 +21,7 @@ angular.
       $scope.getMgrLink = function(idx) {
         if (idx < $scope.resultFileFullPath.length) {
           var ef = encodeURIComponent(base64.encode($scope.resultFileFullPath[idx]));
-          return "/nas-file-manager?a=mgr&ef=" + ef;
+          return "/file-manager?a=mgr&ef=" + ef;
         }
         return "";
       };

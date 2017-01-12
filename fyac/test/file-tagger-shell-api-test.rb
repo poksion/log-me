@@ -6,7 +6,7 @@ require_relative '../apps/file-tagger-shell-api'
 
 class FileTaggerShellApiTest < Test::Unit::TestCase
   def test_duplicated
-    tagger_shell = FileTaggerShellApi.new("duplicated", "photo-manager-result.yml")
+    tagger_shell = FileTaggerShellApi.new("duplicated", "mac:result-photo-shared.yml")
     puts tagger_shell.get_response
   end
 end

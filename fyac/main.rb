@@ -14,7 +14,7 @@ require_relative 'actions/action_seeds'
 require_relative 'apps/file-tagger-shell-api'
 
 require_relative 'apps/nas-portal'
-require_relative 'apps/nas-file-manager'
+require_relative 'apps/file-manager'
 
 def make_action(action_type)
   #trend template
@@ -51,24 +51,27 @@ get '/' do
   action.content
 end
 
-get '/file-tagger-shell-api' do
-  return "restricted on nas" if $config_loader.on_nas?
-
-  file_tagger_shell_api = FileTaggerShellApi.new(params['a'], params['f'])
-  file_tagger_shell_api.get_response
-end
-
 get '/nas-portal' do
   nas_portal = NasPortal.new
   @items = nas_portal.get_items
   erb :nas_portal_view
 end
 
-get '/nas-file-manager' do
-  nas_file_manager = NasFileManager.new(params['a'], params['ef'])
-  view_file = nas_file_manager.get_response_as_view
+get '/file-tagger-shell-api' do
+  file_tagger_shell_api = FileTaggerShellApi.new(params['a'], params['f'])
+  file_tagger_shell_api.get_response
+end
+
+get '/file-tagger-shell' do
+  project_dir = File.dirname(File.expand_path(__FILE__))
+  File.read(File.join(project_dir, 'public', 'apps', 'file-tagger-shell.html'))
+end
+
+get '/file-manager' do
+  file_manager = FileManager.new(params['a'], params['ef'])
+  view_file = file_manager.get_response_as_view
   if view_file != nil
     send_file view_file
   end
-  nas_file_manager.get_response
+  file_manager.get_response
 end
