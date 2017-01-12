@@ -76,7 +76,7 @@ class TaggerResResult
   
   def get_result_file_full_path(result_file)
     parent_path = File.dirname(File.dirname(__FILE__))
-    File.expand_path( File.join(parent_path, 'result', result_file) )
+    File.expand_path( File.join(parent_path, result_file) )
   end
   
   def load_result(result_file_full_path)

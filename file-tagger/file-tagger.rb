@@ -14,19 +14,16 @@ def operate_tagger(op_type, op_lhs, op_rhs)
   tagger_operator.show_result()
 end
 
-# file-tagger
-#  - default config reporting
-# file-tagger config-name
-# file-tagger compare result1 result2
+# result config-name
+# op sub|dup|dup-summary result1 result2
+# nas-to-cloud
 
 if __FILE__ == $0
 
   valid_argv = true
 
-  if ARGV.length == 0
-    build_tagger("")
-  elsif ARGV.length == 1
-    build_tagger(ARGV[0])
+  if ARGV.length == 2 and ARGV[0] == 'result'
+    build_tagger(ARGV[1])
   elsif ARGV.length == 4 and ARGV[0] == 'op'
     operate_tagger(ARGV[1], ARGV[2], ARGV[3])
   else
@@ -34,8 +31,10 @@ if __FILE__ == $0
   end
   
   unless valid_argv
-    puts "ruby file-tagger"
-    puts "ruby file-tagger config-file.yml"
+    puts "result config-file.yml"
+    puts "op sub|dup|dup-summary result1.yml result2.yml"
+    puts "local-to-cloud"
+    puts "nas-to-cloud"
   end
 
 end

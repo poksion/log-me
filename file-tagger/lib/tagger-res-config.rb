@@ -17,13 +17,10 @@ class TaggerResConfig
     parent_path = File.dirname(File.dirname(__FILE__))
 
     if config_filename == nil or config_filename.empty?
-      config_filename = File.join(parent_path, 'config', 'file-tagger-config.yml')
+      config_filename = File.join(parent_path, 'file-tagger-config.template.yml')
     end
 
     config_file_path = File.expand_path(config_filename)
-    unless File.exist? config_file_path
-      config_file_path = File.expand_path( File.join(parent_path, 'config', config_filename) )
-    end
 
     contents = YAML.load_file(config_file_path)
     config = contents['file_tagger_config']

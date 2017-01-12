@@ -18,7 +18,7 @@ class TaggerBuilder
   end
   
   def get_tagger_id_result
-    "#{@tagger_res_config.tagger_id}-result.yml"
+    "result-#{@tagger_res_config.tagger_id}.yml"
   end
   
   def get_result_map

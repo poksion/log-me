@@ -8,19 +8,19 @@ computer_name: 'mac'
 paths:
   git : '/usr/bin/git'
 
-  # for dropbox
-  notes_dir : '~/Dropbox/Notes'
-  log_dir : '~/Dropbox/Log'
-  blog_dir : '~/Dropbox/public/blog'
-
-  # for box
-  box_working_dir : '~/Box Sync/workingDocs/working'
-  
-  # log
   log_file : '~/workspace/worklog.log'
+  log_dir : '~/Dropbox/Log'
+
+  notes_dir : '~/Dropbox/Notes'
+  blog_dir : '~/Dropbox/public/blog'
+  box_working_dir : '~/Box Sync/workingDocs/working'
 
 server:
   port_config : 'fyac/extern-apps/chrome-menu-result/manifest.json'
   search_log_file : '~/workspace/search.log'
   seeds_log_file : '~/workspace/seeds.log'
   use_on_nas : false
+
+file_tagger:
+  cloud_dir : '~/Dropbox/Log/file-tagger'
+  nas_dir : '/nas/dir/here'
