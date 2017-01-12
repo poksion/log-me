@@ -18,29 +18,54 @@ class ConfigLoader
 
     build_path_config(contents['paths'])
     build_server_config(contents['server'])
+    build_file_tagger_config(contents['file_tagger'])
   end
   
   def build_path_config(paths)
     @git_cmd = paths['git']
-    @log_dir_fullpath = File.expand_path(paths['log_dir'])
-    @log_file_fullpath = File.expand_path(paths['log_file'])
-    @blog_dir_fullpath = File.expand_path(paths['blog_dir'])
-    @notes_dir_fullpath = File.expand_path(paths['notes_dir'])
-    @box_working_dir_fullpath = File.expand_path(paths['box_working_dir'])
+    @log_dir_fullpath = get_expand_path_or_empty(paths, 'log_dir', true)
+    @log_file_fullpath = get_expand_path_or_empty(paths, 'log_file', true)
+    @blog_dir_fullpath = get_expand_path_or_empty(paths, 'blog_dir', true)
+    @notes_dir_fullpath = get_expand_path_or_empty(paths, 'notes_dir', true)
+    @box_working_dir_fullpath = get_expand_path_or_empty(paths, 'box_working_dir', true)
   end
   
   def build_server_config(server_config)
-    if (server_config == nil or server_config.empty?)
-      @server_port_config = nil
-      @search_log_file_fullpath = File.expand_path('~/workspace/search.log')
-      @seeds_log_file_fullpath = File.expand_path('~/workspace/seeds.log')
-      @use_on_nas = false
-    else
-      @server_port_config = File.join(@project_dir, server_config['port_config'])
-      @search_log_file_fullpath = File.expand_path(server_config['search_log_file'])
-      @seeds_log_file_fullpath = File.expand_path(server_config['seeds_log_file'])
-      @use_on_nas = server_config['use_on_nas']
+    @server_port_config = get_join_path_or_nil(server_config, 'port_config', false)
+    @search_log_file_fullpath = get_expand_path_or_empty(server_config, 'search_log_file', false)
+    @seeds_log_file_fullpath = get_expand_path_or_empty(server_config, 'seeds_log_file', false)
+    @use_on_nas = get_boolean_or_false(server_config, 'use_on_nas', false)
+  end
+  
+  def build_file_tagger_config(file_tagger_config)
+    @cloud_dir = get_expand_path_or_empty(file_tagger_config, 'cloud_dir', false)
+    @nas_dir = get_expand_path_or_empty(file_tagger_config, 'nas_dir', false)
+  end
+  
+  def get_config_map_value(config_map, config_key, check_validation)
+    value = config_map == nil ? nil : config_map[config_key]
+    if check_validation and value == nil
+      puts "invalid config-map for key : #{config_key}"
     end
+    value
+  end
+  
+  def get_expand_path_or_empty(config_map, config_key, check_validation)
+    value = get_config_map_value(config_map, config_key, check_validation)
+    return "" if value == nil or value.empty?
+    File.expand_path(value)
+  end
+  
+  def get_join_path_or_nil(config_map, config_key, check_validation)
+    value = get_config_map_value(config_map, config_key, check_validation)
+    return nil if value == nil or value.empty?
+    File.join(@project_dir, value)
+  end
+  
+  def get_boolean_or_false(config_map, config_key, check_validation)
+    value = get_config_map_value(config_map, config_key, check_validation)
+    return false if value == nil
+    value
   end
   
   def get_project_dir_fullpath
@@ -99,6 +124,14 @@ class ConfigLoader
 
   def get_seedslog_file_fullpath
     @seeds_log_file_fullpath
+  end
+  
+  def get_file_tagger_cloud_dir_fullpath
+    @cloud_dir
+  end
+
+  def get_file_tagger_nas_dir_fullpath
+    @nas_dir
   end
 
 end

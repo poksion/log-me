@@ -24,5 +24,11 @@ class ConfigLoaderTest < Test::Unit::TestCase
     # server port are related in fyac / extern-apps / chrome-menu-result / manifest.json
     assert_equal(9494, config_loader.get_server_port)
   end
+  
+  def test_file_tagger
+    config_loader = ConfigLoader.new('config.template.yml')
+    puts config_loader.get_file_tagger_cloud_dir_fullpath
+    puts config_loader.get_file_tagger_nas_dir_fullpath
+  end
 
 end
