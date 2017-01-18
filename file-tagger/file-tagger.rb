@@ -35,6 +35,8 @@ if __FILE__ == $0
     puts "op sub|dup|dup-summary result1.yml result2.yml"
     puts "local-to-cloud"
     puts "nas-to-cloud"
+    puts "dev-export"
+    puts "dev-import"
   end
 
 end
