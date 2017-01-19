@@ -88,16 +88,16 @@ class MacLogger
       config_loader = ConfigLoader.new
       File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
         if (log_type == :search)
-          f.puts `osascript #{get_apple_script_fullpath} "search" #{log_value}`
+          f.puts `osascript #{get_apple_script_fullpath} "search" "#{log_value}"`
         else
-          f.puts `osascript #{get_apple_script_fullpath} "result" #{log_value}`
+          f.puts `osascript #{get_apple_script_fullpath} "result" "#{log_value}"`
         end
       end
 
     elsif (log_type == :seeds)
       config_loader = ConfigLoader.new
       File.open(config_loader.get_seedslog_file_fullpath, 'a+') do |f|
-        f.puts `osascript #{get_apple_script_fullpath} "seeds" #{log_value}`
+        f.puts `osascript #{get_apple_script_fullpath} "seeds" "#{log_value}"`
       end
     else
       puts "not implemented"
