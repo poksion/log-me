@@ -19,9 +19,9 @@ case "$1" in
         ;;
 	grep_cgi)
 		read NOTES_DIR PUBLIC_DIR BOX_DIR <<<$(ruby $CONFIG_HANDLER "notes-public-box-dir")
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" $NOTES_DIR
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" $PUBLIC_DIR
-		grep -nriI --color=always --include \*.md --include \*.txt "$2" "$BOX_DIR"
+		[[ ! -z $NOTES_DIR ]] && grep -nriI --color=always --include \*.md --include \*.txt "$2" $NOTES_DIR
+		[[ ! -z $PUBLIC_DIR ]] && grep -nriI --color=always --include \*.md --include \*.txt "$2" $PUBLIC_DIR
+		[[ ! -z $BOX_DIR ]] && grep -nriI --color=always --include \*.md --include \*.txt "$2" "$BOX_DIR"
 		;;
 	blog-open-last)
 		BLOG_DIR=$(ruby $CONFIG_HANDLER "blog-dir")
