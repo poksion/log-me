@@ -87,7 +87,7 @@ on run argv
         set the_date to get_date()
         set front_app to get_front_app()
         set window_title to get_window_title(front_app)
-        return "a4 " & the_ip & " " & the_ssid & " " & the_date & " " & front_app & ": " & window_title
+        return "a5 " & the_ip & " " & the_ssid & " " & the_date & " " & front_app & ": " & window_title
     end if
 
     if item 1 of argv is "search" then

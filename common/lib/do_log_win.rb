@@ -27,14 +27,16 @@ class WindowDoLogger
   def do_log_work
     active_window_handle = get_active_window_handle
 
-    title = get_title(active_window_handle)
     proc_name = get_proc_name(active_window_handle)
+    return "" if proc_name.eql?("LockApp.exe")
+    
+    title = get_title(active_window_handle)
     
     ssid = get_ssid
     ip_addr = get_ip
     date = get_date
     
-    "a4 #{ip_addr} #{ssid} #{date} #{proc_name}: #{title}"
+    return "a5 #{ip_addr} #{ssid} #{date} #{proc_name}: #{title}"
   end
   
   def do_log_search(query_word, with_result)
@@ -56,7 +58,7 @@ class WindowDoLogger
     getWindowText = Win32API.new('user32', 'GetWindowText', ['L', 'P', 'I'], 'I')
     getWindowText.Call(window_handle, title_buf, title_buf.length)
     
-    title_buf
+    title_buf.gsub(/\000/, '').encode('utf-8', 'euc-kr')
   end
 
   def get_proc_name(window_handle)

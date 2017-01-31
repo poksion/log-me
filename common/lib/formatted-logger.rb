@@ -19,8 +19,9 @@ class WindowLogger
 
     do_logger.dropbox_sync(worklog_file, dropbox_dir, comp_name)
 
-    File.open(worklog_file, 'a+') do |f|
-      f.puts do_logger.do_log_work
+    File.open(worklog_file, 'a+:utf-8') do |f|
+      log_line = do_logger.do_log_work
+      f.puts log_line unless log_line.empty?
     end
   end
   
@@ -46,7 +47,7 @@ class WindowLogger
     
     config_loader = ConfigLoader.new
     do_logger = WindowDoLogger.new
-    File.open(config_loader.get_searchlog_file_fullpath, 'a+') do |f|
+    File.open(config_loader.get_searchlog_file_fullpath, 'a+:utf-8') do |f|
       f.puts do_logger.do_log_search(query_word, result)
     end
   end
