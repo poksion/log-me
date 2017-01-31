@@ -11,6 +11,8 @@ require 'FileUtils'
 
 class WindowDoLogger
   
+  @@proc_filter = ['LockApp.exe', 'System Idle Process', 'LockAppHost.exe']
+  
   def encoded_str(raw_str)
     raw_str.encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "").force_encoding('UTF-8')
   end
@@ -28,7 +30,7 @@ class WindowDoLogger
     active_window_handle = get_active_window_handle
 
     proc_name = get_proc_name(active_window_handle)
-    return "" if proc_name.eql?("LockApp.exe") or proc_name.eql?("System Idle Process")
+    return "" if @@proc_filter.include?(proc_name)
     
     title = get_title(active_window_handle)
     
