@@ -28,7 +28,7 @@ class WindowDoLogger
     active_window_handle = get_active_window_handle
 
     proc_name = get_proc_name(active_window_handle)
-    return "" if proc_name.eql?("LockApp.exe")
+    return "" if proc_name.eql?("LockApp.exe") or proc_name.eql?("System Idle Process")
     
     title = get_title(active_window_handle)
     
