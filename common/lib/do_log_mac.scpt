@@ -49,7 +49,7 @@ on get_date()
 end get_date
 
 on get_ip()
-    set the_ip to do shell script "/sbin/ifconfig | grep 'inet.*broadcast' | awk '{print $2}'"
+    set the_ip to do shell script "/sbin/ifconfig | grep 'inet.*broadcast' | awk 'FNR == 1 {print $2}'"
     if the_ip = "" then set the_ip to "-"
     return the_ip
 end get_ip
