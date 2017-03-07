@@ -56,7 +56,7 @@ class InfoGenerator
     news = "\n\nNews"
     news += "\n----"
     begin
-      open('http://api.sbs.co.kr/xml/news/rss.jsp?pmDiv=all') do |rss|
+      open('http://file.mk.co.kr/news/rss/rss_40300001.xml') do |rss|
         feed = RSS::Parser.parse(rss)
         news += "\n * #{feed.channel.title}"
         feed.items.each do |item|
