@@ -9,7 +9,7 @@ class PathSelector
   def initialize(config_file_name = 'config.yml')
     config_loader = ConfigLoader.new
     @blog_dir_path = config_loader.get_blog_dir_fullpath
-    @public_dir_path = File.dirname(@blog_dir_path)
+    @blog_parent_dir_path = File.dirname(@blog_dir_path)
     
     @filename_encoder = FilenameEncoder.new
   end
@@ -22,8 +22,8 @@ class PathSelector
     @blog_dir_path
   end
   
-  def get_public_dirname
-    @public_dir_path
+  def get_blog_parent_dirname
+    @blog_parent_dir_path
   end
 
 end

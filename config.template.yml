@@ -12,7 +12,7 @@ paths:
   log_dir : '~/Dropbox/Log'
 
   notes_dir : '~/Dropbox/Notes'
-  blog_dir : '~/Dropbox/public/blog'
+  blog_dir : '~/workspace/mdblog/blog'
   box_working_dir : '~/Box Sync/workingDocs/working'
 
 server:

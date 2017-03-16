@@ -3,11 +3,13 @@
 
 require_relative 'lib/path-selector'
 
+require 'date'
+
 def index_generator
 
   path_selector = PathSelector.new
   t = Time.now
-  timestamp = File.join(path_selector.get_public_dirname,"index.timestamp")
+  timestamp = File.join(path_selector.get_blog_parent_dirname,"index.timestamp")
   File.open( timestamp, 'w') do |file|
     file.write(t.strftime("%Y%m%d%H%M"))
   end
@@ -30,12 +32,19 @@ def index_generator
   end
   index_contents << "</mds>"
 
-  index_file = File.join(path_selector.get_public_dirname,"index.xml")
+  index_file = File.join(path_selector.get_blog_parent_dirname,"index.xml")
   File.open( index_file, 'w') do |file|
     file.write(index_contents)
   end
 end
 
+def upload_blog
+  date_str = Date.today.to_s
+  path_selector = PathSelector.new
+  `cd #{path_selector.get_blog_parent_dirname} && git add . && git commit -m "#{date_str}" && git push`
+end
+
 if __FILE__ == $0
   index_generator
+  upload_blog
 end
