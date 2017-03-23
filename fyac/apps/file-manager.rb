@@ -26,11 +26,11 @@ class FileManager
   <link rel="stylesheet" href="/foundation/css/foundation.min.css">
   <script src="/foundation/js/vendor/custom.modernizr.js"></script>
 
-  <script src="/apps/bower_components/angular/angular.min.js"></script>
-  <script src="/apps/bower_components/angular-utf8-base64/angular-utf8-base64.min.js"></script>
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/bower_components/angular-utf8-base64/angular-utf8-base64.min.js"></script>
   
-  <link rel="stylesheet" href="/apps/file-manager/app.css">
-  <script src="/apps/file-manager/app.js"></script>
+  <link rel="stylesheet" href="/file-manager-app.css">
+  <script src="/file-manager-app.js"></script>
 
 </head>
 

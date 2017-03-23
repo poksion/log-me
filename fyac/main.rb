@@ -64,7 +64,27 @@ end
 
 get '/file-tagger-shell' do
   project_dir = File.dirname(File.expand_path(__FILE__))
-  File.read(File.join(project_dir, 'public', 'apps', 'file-tagger-shell.html'))
+  File.read(File.join(project_dir, 'views', 'file-tagger-shell.html'))
+end
+
+get '/file-tagger-shell-app.css' do
+  project_dir = File.dirname(File.expand_path(__FILE__))
+  send_file(File.join(project_dir, 'views', 'file-tagger-shell-app.css'))
+end
+
+get '/file-tagger-shell-app.js' do
+  project_dir = File.dirname(File.expand_path(__FILE__))
+  send_file(File.join(project_dir, 'views', 'file-tagger-shell-app.js'))
+end
+
+get '/file-tagger-shell-result-duplicated-list.js' do
+  project_dir = File.dirname(File.expand_path(__FILE__))
+  send_file(File.join(project_dir, 'views', 'file-tagger-shell-result-duplicated-list.js'))
+end
+
+get '/file-tagger-shell-result-loader.js' do
+  project_dir = File.dirname(File.expand_path(__FILE__))
+  send_file(File.join(project_dir, 'views', 'file-tagger-shell-result-loader.js'))
 end
 
 get '/file-manager' do
@@ -74,4 +94,14 @@ get '/file-manager' do
     send_file view_file
   end
   file_manager.get_response
+end
+
+get '/file-manager-app.css' do
+  project_dir = File.dirname(File.expand_path(__FILE__))
+  send_file(File.join(project_dir, 'apps', 'file-manager-app.css'))
+end
+
+get '/file-manager-app.js' do
+  project_dir = File.dirname(File.expand_path(__FILE__))
+  send_file(File.join(project_dir, 'apps', 'file-manager-app.js'))
 end
