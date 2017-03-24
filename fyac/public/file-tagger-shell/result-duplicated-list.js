@@ -1,19 +1,30 @@
 angular.
   module('fileTaggerShell').
-  directive('resultDuplicatedList', ['base64', 'resultEventHandlers', 'resultStore', function(base64, resultEventHandlers, resultStore) {
+  directive('resultDuplicatedList', ['eventBus', 'EventFactory', 'base64', '$http', function(eventBus, EventFactory, base64, $http) {
     var resultDuplicatedList = {};
     
     resultDuplicatedList.link = function(scope) {
       scope.resultCnt = 0;
-      resultEventHandlers.loadedResult(function(id) {
-        scope.result = resultStore.getDuplicated(id);
-        var resultCnt = scope.result.length;
-        if (resultCnt == 1 && scope.result[0] == "FAIL") {
-          scope.resultCnt = -1;
-        } else {
-          scope.resultCnt = resultCnt;
-        }
-        scope.resultFileFullPath = resultStore.getDuplicatedFileFullPath(id);
+
+      var successCallback = function(response) {
+        var duplicatedResult = angular.fromJson(response.data)
+        scope.result = duplicatedResult['candidate'];
+        scope.resultFileFullPath = duplicatedResult['candidate_file_full_path'];
+        
+        scope.resultCnt = scope.result.length;
+      };
+
+      var errorCallback = function(response) {
+        scope.resultCnt = -1;
+      };
+
+      eventBus.register(EventFactory.getLoadResultEventName(), function(fileName) {
+        var req = {
+          method : 'GET',
+          url : '/file-tagger-shell-api?a=duplicated&f=' + fileName
+        };
+
+        $http(req).then(successCallback, errorCallback);
       });
     };
     

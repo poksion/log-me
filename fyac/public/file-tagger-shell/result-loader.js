@@ -1,12 +1,12 @@
 angular.
   module('fileTaggerShell').
-  directive('resultLoader', ['resultActionCreators', function(resultActionCreators) {
+  directive('resultLoader', ['eventBus', 'EventFactory', function(eventBus, EventFactory) {
     var resultLoader = {};
     
     resultLoader.controller = function($scope) {
       $scope.loadResultClick = function() {
         if ($scope.resultFile) {
-          resultActionCreators.loadResult($scope.resultFile);
+          eventBus.post(EventFactory.makeLoadResultEvent($scope.resultFile));
         }
       }
     };
