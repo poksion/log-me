@@ -38,6 +38,8 @@ angular.
       };
     };
     
+    // $index is special scope property
+    // https://docs.angularjs.org/api/ng/directive/ngRepeat
     resultDuplicatedList.template =
       '<div ng-switch="resultCnt">' +
         '<div ng-switch-when="-1">' +
@@ -47,7 +49,7 @@ angular.
           '결과없음' +
         '</div>' +
         '<div ng-switch-default>' +
-          '<div class="result-duplicated-box" ng-repeat="candidate in result track by $index">{{candidate}} <a ng-href="{{getMgrLink($index)}}" target="_blank">...관리하기</a></div>' +
+          '<div class="result-duplicated-box" ng-repeat="candidate in ::result track by $index">{{::candidate}} <a ng-href="{{getMgrLink($index)}}" target="_blank">...관리하기</a></div>' +
         '</div>' +
       '</div>';
     
