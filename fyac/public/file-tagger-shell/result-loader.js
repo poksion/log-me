@@ -11,7 +11,7 @@ angular.
       }
     };
     
-    // ng-model with no-model-options (updateOn blur)
+    // ng-model with model-options (updateOn blur)
     resultLoader.template =
       '<h4>Load Result file</h4>' +
       '<div class="row collapse">' +
