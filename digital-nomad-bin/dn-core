@@ -48,6 +48,15 @@ case "$1" in
 		cd - &> /dev/null
 		echo $BLOG_DIR/`date +"%Y%m%d%H%M"`-$2.md
 		;;
+	log-rotator)	
+		if [ -z "$2" ] || [ -z "$3" ]
+		then
+			echo "log rotator needs 'log-type(worklog, search, seeds and bash)' and 'machine(main, ..)"
+			exit 1
+		fi
+		CMD=$(ruby $CONFIG_HANDLER "log-rotator")
+        ruby $CMD "$2" "$3"
+		;;
 	*)
 		echo "dn grep/grep_cgi/grep_todo keyword"
 		echo "dn blog title"

@@ -35,7 +35,8 @@ def log_copy(worklog_file, searchlog_file, seedslog_file, save_dir)
     `cp #{searchlog_file} #{save_dir}`
     `cp #{seedslog_file} #{save_dir}`
 
-    bash_save_file = File.join(save_dir, 'bash-history.log')
+    current_date = Time.new.strftime('%Y%m%d')
+    bash_save_file = File.join(save_dir, "bash-history-#{current_date}.log")
     `cp ~/.bash_history #{bash_save_file}`
 end
 

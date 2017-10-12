@@ -12,7 +12,7 @@ if __FILE__ == $0
 
   puts case ARGV[0]
   when 'blog-metadata'
-    File.join(config_loader.get_project_dir_fullpath, "mdblog-metadata-generator/blog-metadata-generator.rb")
+    File.join(config_loader.get_project_dir_fullpath, "mdblog-metadata-generator", "blog-metadata-generator.rb")
   when 'blog-dir'
     config_loader.get_blog_dir_fullpath
   when 'notes-public-box-dir'
@@ -22,6 +22,8 @@ if __FILE__ == $0
     "#{notes_dir} #{public_dir} #{box_dir}"
   when 'log-ics-dir'
     config_loader.get_log_ics_fullpath
+  when 'log-rotator'
+    File.join(config_loader.get_project_dir_fullpath, "worklog", "log-rotator.rb")
   else
     'check-parameter : blog-metadata, blog-dir, notes-public-box-dir and log-ics-dir'
   end
