@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name       SearchJump local
 // @namespace  http://poksion.net/
-// @version    0.2
+// @version    0.1
 // @grant       GM_xmlhttpRequest
-// @include    https://www.google.co.kr/webhp?*
+// @include    https://www.google.co.kr/search?*
 // ==/UserScript==
 
 // Modifications
@@ -21,7 +21,7 @@
 
 	var searchenginearray = new Array();
 	var lg = new Array();
-	
+
 //	위키페디아 : http://en.wikipedia.org/w/index.php?title=Special:Search&search=%s
 //	네이버 : http://search.naver.com/search.naver?query=%s
 //	네이버 맵 : http://map.naver.com/?query=%s
@@ -64,7 +64,7 @@
     keywords = decodeURIComponent(keywords);
     var pos = keywords.indexOf("&q=");
     if( pos > -1 ){
-        keywords = encodeURIComponent(keywords.substring(pos + 3));
+        keywords = encodeURIComponent(keywords.substring(pos + 3).replace('&cad=h', '').replace('&oq=', ' ').replace(/&gs_l=.*/, ''));
     }
 
     function make_boxes() {
@@ -91,13 +91,13 @@
                 ls.setAttribute("style", "text-decoration: none; margin: 0 10px 3px 10px; padding: 3px 8px 3px 8px; display: block; color: #ddf; font-size: 80%; overflow: hidden;");
 				addtext(ls, " ");
                 b.appendChild(ls);
-            
+
                 lmy = document.createElement("p");
                 lmy.setAttribute("style", footerlinkstyle);
                 var lmy_content = document.createTextNode("Loading...");
                 lmy.appendChild(lmy_content);
                 b.appendChild(lmy);
-            
+
                 GM_xmlhttpRequest({
                   method: "GET",
                   url: "http://localhost:9494/?a=search&q=" + keywords,
@@ -106,7 +106,7 @@
                     lmy_content.nodeValue = response.responseText;
                   }
                 });
-            
+
                 lopen = document.createElement("a");
                 lopen.setAttribute("href", "http://localhost:9494/?a=result");
                 lopen.setAttribute("target", "_blank");
@@ -114,7 +114,7 @@
                 addtext(lopen, "Open result");
                 b.appendChild(lopen);
 
-            
+
                 lc = document.createElement("a");
                 lc.setAttribute("style", footerlinkstyle);
                 lc.setAttribute("href","#");
@@ -154,15 +154,15 @@
 		obj.appendChild(content);
 	}
 
-	function addEvent(objObject, strEventName, fnHandler) { 
-		// DOM-compliant way to add an event listener 
-		if (objObject.addEventListener) 
-			objObject.addEventListener(strEventName, fnHandler, false); 
-		// IE/windows way to add an event listener 
-		else if (objObject.attachEvent) 
-			objObject.attachEvent("on" + strEventName, fnHandler); 
+	function addEvent(objObject, strEventName, fnHandler) {
+		// DOM-compliant way to add an event listener
+		if (objObject.addEventListener)
+			objObject.addEventListener(strEventName, fnHandler, false);
+		// IE/windows way to add an event listener
+		else if (objObject.attachEvent)
+			objObject.attachEvent("on" + strEventName, fnHandler);
 	}
-	
+
 	window.addEventListener("load", go(), false);
 
 })();

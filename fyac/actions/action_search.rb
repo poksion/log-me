@@ -26,7 +26,7 @@ class SearchAction < Action
           local_dn_script = File.join(root_dir, 'digital-nomad-bin/dn')
           candi_results_str = `#{local_dn_script} grep_cgi #{word}`
           escaped_candi = Shellwords.escape(candi_results_str)
-          
+
           result_raw_file = File.join(root_dir, 'fyac/public/result/result_raw.txt')
           `echo #{escaped_candi} > #{result_raw_file}`
           candi_results = candi_results_str.split("\n")
@@ -93,10 +93,10 @@ class SearchAction < Action
           if(line.include?(".md:"))
             line.gsub!(/^.*\/Dropbox\/Notes\//, '<a href="openmd://~/notes/');
             line.gsub!(/(~\/notes\/.*\.md)/, '\1">\1</a>');
-            line.gsub!(/^.*\/Dropbox\/public\/blog\//, '<a href="openmd://~/blog/');
-            line.gsub!(/(~\/blog\/.*\.md)/, '\1">\1</a>');
-            line.gsub!(/^.*\/Box Sync\/작업문서\/작업중\//, '<a href="openmd://~/workspace/box-working-docs/');
-            line.gsub!(/(~\/workspace\/box-working-docs\/.*\.md)/, '\1">\1</a>');
+            line.gsub!(/^.*\/Box Sync\/workingDocs\/working\//, '<a href="openmd://~/notes-working-docs/');
+            line.gsub!(/(~\/notes-working-docs\/.*\.md)/, '\1">\1</a>');
+            line.gsub!(/^.*\/workspace\/mdblog\//, '<a href="openmd://~/workspace/mdblog/');
+            line.gsub!(/(~\/workspace\/mdblog\/.*\.md)/, '\1">\1</a>');
           end
           line.gsub!("[01;31m[K", '<span style="color:red">');
           line.gsub!("[m[K", '</span>');
