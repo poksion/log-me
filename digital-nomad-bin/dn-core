@@ -51,7 +51,7 @@ case "$1" in
 	log-rotator)	
 		if [ -z "$2" ] || [ -z "$3" ]
 		then
-			echo "log rotator needs 'log-type(worklog, search, seeds and bash)' and 'machine(main, ..)"
+			echo "log rotator needs 'log-type(work, search, seed and bash)' and 'machine(mac, ..)"
 			exit 1
 		fi
 		CMD=$(ruby $CONFIG_HANDLER "log-rotator")
@@ -63,5 +63,6 @@ case "$1" in
 		echo "dn blog-open-last"
 		echo "dn blog-md-tips"
 		echo "dn blog-update"
+		echo "dn log-rotator"
 		;;
 esac
