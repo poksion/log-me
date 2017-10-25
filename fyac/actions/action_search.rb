@@ -18,7 +18,7 @@ class SearchAction < Action
     begin
       result = ""
 
-      query = query_string.split
+      query = query_string.split.sort { |a, b| b.length - a.length }
 
       candi_results = nil
       query.each do | word |
