@@ -4,9 +4,29 @@
 require 'shellwords'
 
 require_relative 'action'
-require_relative '../../common/lib/config-loader'
 
 class SearchAction < Action
+  
+  def get_md_patterns(dir, dir_alias, as_config)
+    results = []
+    if as_config
+      from_dir = @config_loader.get_raw_paths[dir]
+      from_dir_alias = @config_loader.get_raw_paths[dir_alias] 
+    else
+      from_dir = dir
+      from_dir_alias = dir_alias
+    end
+    if from_dir != nil and from_dir_alias != nil
+      from_pattern = Regexp.new( "^.*" + (from_dir + "/").gsub("~", "").gsub("/", "\\/") )
+      to_open_md = "<a href=\"openmd://#{from_dir_alias}/"
+      to_grep_pattern = Regexp.new( "(" + (from_dir_alias + "/").gsub("/", "\\/") + ".*\\.md)" )
+      results << from_pattern
+      results << to_open_md
+      results << to_grep_pattern
+    end
+    results
+  end
+
   def content
     @cnt.to_s + " results"
   end
@@ -91,12 +111,26 @@ class SearchAction < Action
         if (false == line.include?(": Permission denied") and line.valid_encoding?)
           @cnt += 1
           if(line.include?(".md:"))
-            line.gsub!(/^.*\/Dropbox\/Notes\//, '<a href="openmd://~/notes/');
-            line.gsub!(/(~\/notes\/.*\.md)/, '\1">\1</a>');
-            line.gsub!(/^.*\/Box Sync\/workingDocs\/working\//, '<a href="openmd://~/notes-working-docs/');
-            line.gsub!(/(~\/notes-working-docs\/.*\.md)/, '\1">\1</a>');
-            line.gsub!(/^.*\/workspace\/mdblog\//, '<a href="openmd://~/workspace/mdblog/');
-            line.gsub!(/(~\/workspace\/mdblog\/.*\.md)/, '\1">\1</a>');
+            notes_md_patterns = get_md_patterns('notes_dir', 'notes_dir_alias', true)
+            if notes_md_patterns.size == 3
+              line.gsub!(notes_md_patterns[0], notes_md_patterns[1]);
+              line.gsub!(notes_md_patterns[2], '\1">\1</a>');
+            end
+            working_docs_patterns = get_md_patterns('box_working_dir', 'box_working_dir_alias', true)
+            if working_docs_patterns.size == 3
+              line.gsub!(working_docs_patterns[0], working_docs_patterns[1]);
+              line.gsub!(working_docs_patterns[2], '\1">\1</a>');
+            end
+
+            blog_dir = @config_loader.get_raw_paths['blog_dir']
+            if blog_dir != nil
+              mdblog_dir = blog_dir.gsub("/blog", "")
+              mdblog_patterns = get_md_patterns(mdblog_dir, mdblog_dir, false)
+              if mdblog_patterns.size == 3
+                line.gsub!(mdblog_patterns[0], mdblog_patterns[1]);
+                line.gsub!(mdblog_patterns[2], '\1">\1</a>');
+              end
+            end  
           end
           line.gsub!("[01;31m[K", '<span style="color:red">');
           line.gsub!("[m[K", '</span>');

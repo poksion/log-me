@@ -22,6 +22,7 @@ class ConfigLoader
   end
   
   def build_path_config(paths)
+    @raw_paths = paths
     @git_cmd = paths['git']
     @log_dir_fullpath = get_expand_path_or_empty(paths, 'log_dir', true)
     @log_file_fullpath = get_expand_path_or_empty(paths, 'log_file', true)
@@ -66,6 +67,13 @@ class ConfigLoader
     value = get_config_map_value(config_map, config_key, check_validation)
     return false if value == nil
     value
+  end
+  
+  def get_raw_paths
+    if @raw_paths == nil
+      @raw_paths = []
+    end
+    @raw_paths
   end
   
   def get_project_dir_fullpath

@@ -2,10 +2,14 @@
 # vim:tabstop=2 softtabstop=2 expandtab shiftwidth=2:
 
 require_relative '../../common/lib/formatted-logger'
+require_relative '../../common/lib/config-loader'
 
 FOUNDATION = "/foundation"
 
 class Action
+  def initialize(config_loader)
+    @config_loader = config_loader
+  end
 
   def content
     return ""

@@ -12,8 +12,10 @@ paths:
   log_dir : '~/Dropbox/Log'
 
   notes_dir : '~/Dropbox/Notes'
+  notes_dir_alias : '~/notes'
+  box_working_dir : '~/Box Sync/Documents/working'
+  box_working_dir_alias : '~/notes-working-docs'
   blog_dir : '~/workspace/mdblog/blog'
-  box_working_dir : '~/Box Sync/workingDocs/working'
 
 server:
   port_config : 'fyac/extern-apps/chrome-menu-result/manifest.json'

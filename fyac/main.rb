@@ -16,22 +16,22 @@ require_relative 'apps/file-tagger-shell-api'
 require_relative 'apps/nas-portal'
 require_relative 'apps/file-manager'
 
-def make_action(action_type)
+def make_action(action_type, config_loader)
   #trend template
   #http://foundation.zurb.com/templates/marketing.html
 
   if("trend".eql?(action_type))
-    return TrendAction.new
+    return TrendAction.new(config_loader)
   elsif("result".eql?(action_type))
-    return ResultAction.new
+    return ResultAction.new(config_loader)
   elsif("search".eql?(action_type))
-    return SearchAction.new
+    return SearchAction.new(config_loader)
   elsif("newspaper".eql?(action_type))
-    return NewspaperAction.new
+    return NewspaperAction.new(config_loader)
   elsif("seeds".eql?(action_type))
-    return SeedsAction.new
+    return SeedsAction.new(config_loader)
   else
-    return TrendAction.new
+    return TrendAction.new(config_loader)
   end
 end
 
@@ -45,7 +45,7 @@ set :port, $config_loader.get_server_port
 get '/' do
   return "restricted on nas" if $config_loader.on_nas?
    
-  action = make_action(params['a'])
+  action = make_action(params['a'], $config_loader)
   action.act(params['q'])
 
   action.content
