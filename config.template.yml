@@ -17,6 +17,8 @@ paths:
   box_working_dir_alias : '~/notes-working-docs'
   blog_dir : '~/workspace/mdblog/blog'
 
+  live_config : '~/Dropbox/Log/live-config'
+
 server:
   port_config : 'fyac/extern-apps/chrome-menu-result/manifest.json'
   search_log_file : '~/workspace/search.log'
@@ -24,5 +26,5 @@ server:
   use_on_nas : false
 
 file_tagger:
-  cloud_dir : '~/Dropbox/Log/file-tagger'
+  cloud_dir : '~/Dropbox/Log/backup-file-tagger'
   nas_dir : '/nas/dir/here'
