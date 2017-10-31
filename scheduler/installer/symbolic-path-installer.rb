@@ -22,6 +22,7 @@ if __FILE__ == $0
   if live_config != nil
     `ln -s #{live_config}/vim ~/.vim`
     `ln -s #{live_config}/vimrc ~/.vimrc`
+    `mkdir ~/.vim_swap`
     os_specific.run(live_config)
   end
 
