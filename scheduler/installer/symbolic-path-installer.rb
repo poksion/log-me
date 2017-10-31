@@ -12,6 +12,12 @@ class OsSpecific
       `rm -rf ~/.bash_profile && ln -s #{live_config}/mac-bash-profile ~/.bash_profile`
     end
   end
+  
+  def install_box_path(box_working_dir, box_working_dir_alias)
+    if run_on_linux? == false and box_working_dir != nil and box_working_dir_alias != nil
+      `rm -rf #{box_working_dir_alias} && ln -s "#{File.expand_path(box_working_dir)}" #{box_working_dir_alias}`
+    end
+  end
 end
 
 if __FILE__ == $0
@@ -34,7 +40,5 @@ if __FILE__ == $0
 
   box_working_dir = config_loader.get_raw_paths['box_working_dir']
   box_working_dir_alias = config_loader.get_raw_paths['box_working_dir_alias']
-  if box_working_dir != nil and box_working_dir_alias != nil
-    `rm -rf #{box_working_dir_alias} && ln -s "#{File.expand_path(box_working_dir)}" #{box_working_dir_alias}`
-  end
+  os_specific.install_box_path(box_working_dir, box_working_dir_alias)
 end
