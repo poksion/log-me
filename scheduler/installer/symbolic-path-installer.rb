@@ -20,8 +20,8 @@ if __FILE__ == $0
 
   live_config = config_loader.get_raw_paths['live_config']
   if live_config != nil
-    `ln -s #{live_config}/vim ~/.vim`
-    `ln -s #{live_config}/vimrc ~/.vimrc`
+    `rm -rf ~/.vim && ln -s #{live_config}/vim ~/.vim`
+    `rm -rf ~/.vimrc && ln -s #{live_config}/vimrc ~/.vimrc`
     `mkdir ~/.vim_swap`
     os_specific.run(live_config)
   end
@@ -29,12 +29,12 @@ if __FILE__ == $0
   notes_dir = config_loader.get_raw_paths['notes_dir']
   notes_dir_alias = config_loader.get_raw_paths['notes_dir_alias']
   if notes_dir != nil and notes_dir_alias != nil
-    `ln -s #{notes_dir} #{notes_dir_alias}`
+    `rm -rf #{notes_dir_alias} && ln -s #{notes_dir} #{notes_dir_alias}`
   end
 
   box_working_dir = config_loader.get_raw_paths['box_working_dir']
   box_working_dir_alias = config_loader.get_raw_paths['box_working_dir_alias']
   if box_working_dir != nil and box_working_dir_alias != nil
-    `ln -s "#{box_working_dir}" #{box_working_dir_alias}`
+    `rm -rf #{box_working_dir_alias} && ln -s "#{File.expand_path(box_working_dir)}" #{box_working_dir_alias}`
   end
 end
