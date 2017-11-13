@@ -6,9 +6,9 @@
    <string>net.poksion.logme.fyac-server</string>
    <key>ProgramArguments</key>
    <array>
-     <string>bash</string>
+     <string>/bin/bash</string>
      <string>-c</string>
-     <string>bash -c "ruby ~/workspace/log-me/fyac/main.rb"</string>
+     <string>/usr/local/bin/ruby /Users/`users`/workspace/log-me/fyac/main.rb</string>
    </array>
    <key>RunAtLoad</key>
    <true/>
