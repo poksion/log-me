@@ -10,6 +10,9 @@ class OsSpecific
   def run(live_config)
     if run_on_mac?
       `rm -rf ~/.bash_profile && ln -s #{live_config}/mac-bash-profile ~/.bash_profile`
+      `rm -rf ~/.config/karabiner/karabiner.json && ln -s #{live_config}/karabiner.json ~/.config/karabiner/karabiner.json`
+      `mkdir ~/Library/KeyBindings/`
+      `rm -rf ~/Library/KeyBindings/DefaultKeyBinding.dict && ln -s #{live_config}/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict`
     end
   end
   
